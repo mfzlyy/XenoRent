@@ -59,9 +59,11 @@ class AuthController extends Controller
             address: $data['address'],
         );
 
-        $registerUser->execute($userData);
+        $user = $registerUser->execute($userData);
+        Auth::loginUsingId($user->id);
+        $request->session()->regenerate();
 
-        return redirect()->route('login')->with('success', 'Akun berhasil dibuat. Silakan masuk.');
+        return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)

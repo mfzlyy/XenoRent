@@ -20,6 +20,13 @@ class EloquentUserRepository implements UserRepositoryInterface
         return $model ? $this->toEntity($model) : null;
     }
 
+    public function lockForUpdate(int $id): ?User
+    {
+        $model = UserEloquent::with('profile')->lockForUpdate()->find($id);
+
+        return $model ? $this->toEntity($model) : null;
+    }
+
     public function findByEmail(string $email): ?User
     {
         $model = UserEloquent::with('profile')->where('email', $email)->first();

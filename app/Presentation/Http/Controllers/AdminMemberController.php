@@ -8,6 +8,8 @@ use App\Domain\Entities\Profile;
 use App\Domain\Entities\User;
 use App\Domain\Enums\UserRole;
 use App\Domain\ValueObjects\Email;
+use App\Infrastructure\Eloquent\UserEloquent;
+use App\Infrastructure\Repositories\EloquentUserRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,6 +19,7 @@ class AdminMemberController extends Controller
     public function index(UserRepositoryInterface $userRepo)
     {
         $members = $userRepo->getMembers(15, request('q', ''));
+        $members->withQueryString();
 
         return view('admin.members.index', compact('members'));
     }
@@ -113,13 +116,31 @@ class AdminMemberController extends Controller
 
     public function rentals(int $id, RentalRepositoryInterface $rentalRepo, UserRepositoryInterface $userRepo): View
     {
-        $member = $userRepo->findById($id);
+        $member = EloquentUserRepository::class;
+        $member = UserEloquent::withTrashed()->with('profile')->find($id);
         if (! $member) {
             abort(404);
         }
 
+        $member = new User(
+            id: $member->id,
+            name: $member->name,
+            email: new Email($member->email),
+            password: $member->password,
+            role: UserRole::from($member->role),
+            deletedAt: $member->deleted_at?->toDateTimeImmutable(),
+        );
+
         $rentals = $rentalRepo->getByUser($id, 15);
 
         return view('admin.members.rentals', compact('member', 'rentals'));
+    }
+
+    public function printRentals(int $id, RentalRepositoryInterface $rentalRepo): View
+    {
+        $member = UserEloquent::withTrashed()->findOrFail($id);
+        $rentals = $rentalRepo->getAllByUser($id);
+
+        return view('admin.members.rentals-print', compact('member', 'rentals'));
     }
 }

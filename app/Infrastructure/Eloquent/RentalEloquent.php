@@ -29,7 +29,7 @@ class RentalEloquent extends Model
 
     public function unit(): BelongsTo
     {
-        return $this->belongsTo(UnitEloquent::class, 'unit_id');
+        return $this->belongsTo(UnitEloquent::class, 'unit_id')->withTrashed();
     }
 
     protected function isActive(): Attribute

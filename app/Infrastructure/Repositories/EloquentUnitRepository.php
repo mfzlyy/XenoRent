@@ -5,7 +5,9 @@ namespace App\Infrastructure\Repositories;
 use App\Application\Interfaces\UnitRepositoryInterface;
 use App\Domain\Entities\Category;
 use App\Domain\Entities\Unit;
+use App\Domain\Enums\RentalStatus;
 use App\Domain\Enums\UnitStatus;
+use App\Infrastructure\Eloquent\RentalEloquent;
 use App\Infrastructure\Eloquent\UnitEloquent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -81,6 +83,11 @@ class EloquentUnitRepository implements UnitRepositoryInterface
             'status' => $unit->status->value,
         ]);
 
+        $categoryIds = array_map(
+            static fn (int|string|Category $category): int => $category instanceof Category ? (int) $category->id : (int) $category,
+            $categoryIds,
+        );
+
         $model->categories()->sync($categoryIds);
 
         $model->load('categories');
@@ -100,6 +107,13 @@ class EloquentUnitRepository implements UnitRepositoryInterface
             ->find($id);
 
         return $model ? $this->toEntity($model) : null;
+    }
+
+    public function hasActiveRentals(int $id): bool
+    {
+        return RentalEloquent::where('unit_id', $id)
+            ->where('status', RentalStatus::ACTIVE->value)
+            ->exists();
     }
 
     private function toEntity(UnitEloquent $model): Unit

@@ -24,4 +24,6 @@ interface UnitRepositoryInterface
     public function delete(int $id): bool;
 
     public function lockForUpdate(int $id): ?Unit;
+
+    public function hasActiveRentals(int $id): bool;
 }

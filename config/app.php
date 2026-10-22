@@ -54,6 +54,10 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'rental_daily_fine' => (int) env('RENTAL_DAILY_FINE', 10000),
+
+    'rental_duration_days' => (int) env('RENTAL_DURATION_DAYS', 5),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

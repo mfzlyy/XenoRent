@@ -7,10 +7,15 @@ use App\Domain\Enums\RentalStatus;
 
 class RentalPricingService
 {
-    public function __construct(
-        private readonly int $dailyFineAmount = 50000,
-        private readonly int $rentalDurationDays = 5,
-    ) {}
+    private readonly int $dailyFineAmount;
+
+    private readonly int $rentalDurationDays;
+
+    public function __construct(?int $dailyFineAmount = null, ?int $rentalDurationDays = null)
+    {
+        $this->dailyFineAmount = $dailyFineAmount ?? (int) config('app.rental_daily_fine', 10000);
+        $this->rentalDurationDays = $rentalDurationDays ?? (int) config('app.rental_duration_days', 5);
+    }
 
     public function calculateDueDate(\DateTimeImmutable $rentedAt): \DateTimeImmutable
     {

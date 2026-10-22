@@ -12,6 +12,7 @@ use App\Domain\Enums\UserRole;
 use App\Domain\ValueObjects\Email;
 use App\Infrastructure\Eloquent\RentalEloquent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class EloquentRentalRepository implements RentalRepositoryInterface
 {
@@ -24,10 +25,18 @@ class EloquentRentalRepository implements RentalRepositoryInterface
 
     public function getByUser(int $userId, int $perPage = 15): LengthAwarePaginator
     {
-        return RentalEloquent::with(['user', 'unit'])
+        return RentalEloquent::with(['user' => fn ($query) => $query->withTrashed(), 'unit'])
             ->where('user_id', $userId)
             ->latest('rented_at')
             ->paginate($perPage);
+    }
+
+    public function getAllByUser(int $userId): Collection
+    {
+        return RentalEloquent::with(['user' => fn ($query) => $query->withTrashed(), 'unit'])
+            ->where('user_id', $userId)
+            ->latest('rented_at')
+            ->get();
     }
 
     public function getActive(int $perPage = 15): LengthAwarePaginator
@@ -132,9 +141,9 @@ class EloquentRentalRepository implements RentalRepositoryInterface
             id: $model->id,
             userId: $model->user_id,
             unitId: $model->unit_id,
-            rentedAt: \DateTimeImmutable::createFromFormat('Y-m-d', $model->rented_at),
-            dueAt: \DateTimeImmutable::createFromFormat('Y-m-d', $model->due_at),
-            returnedAt: $model->returned_at ? \DateTimeImmutable::createFromFormat('Y-m-d', $model->returned_at) : null,
+            rentedAt: $model->rented_at->toDateTimeImmutable(),
+            dueAt: $model->due_at->toDateTimeImmutable(),
+            returnedAt: $model->returned_at?->toDateTimeImmutable(),
             fineAmount: $model->fine_amount,
             status: RentalStatus::from($model->status),
             createdAt: $model->created_at?->toDateTimeImmutable(),

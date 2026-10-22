@@ -5,6 +5,7 @@ namespace App\Presentation\Http\Controllers;
 use App\Application\DTOs\CreateRentalData;
 use App\Application\Interfaces\UnitRepositoryInterface;
 use App\Application\UseCases\Rental\CreateRental;
+use App\Domain\Exceptions\DomainException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,9 +14,7 @@ class UnitController extends Controller
     public function index(UnitRepositoryInterface $unitRepo)
     {
         $search = request('q', '');
-        $units = Auth::user()->role === 'admin'
-            ? $unitRepo->getAll(12, $search)
-            : $unitRepo->getAvailable(12, $search);
+        $units = $unitRepo->getAll(12, $search);
 
         return view('units.index', compact('units'));
     }
@@ -37,7 +36,11 @@ class UnitController extends Controller
             unitId: $id,
         );
 
-        $rental = $createRental->execute($data);
+        try {
+            $rental = $createRental->execute($data);
+        } catch (DomainException $exception) {
+            return back()->withErrors(['rental' => $exception->getMessage()]);
+        }
 
         return back()->with('success', "Unit berhasil disewa. Jatuh tempo: {$rental->dueAt->format('d M Y')}");
     }

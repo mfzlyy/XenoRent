@@ -5,10 +5,12 @@ namespace App\Application\UseCases\Rental;
 use App\Application\DTOs\CreateRentalData;
 use App\Application\Interfaces\RentalRepositoryInterface;
 use App\Application\Interfaces\UnitRepositoryInterface;
+use App\Application\Interfaces\UserRepositoryInterface;
 use App\Domain\Entities\Rental;
 use App\Domain\Entities\Unit;
 use App\Domain\Enums\RentalStatus;
 use App\Domain\Enums\UnitStatus;
+use App\Domain\Exceptions\DomainException;
 use App\Domain\Services\RentalPolicyService;
 use App\Domain\Services\RentalPricingService;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +20,7 @@ class CreateRental
     public function __construct(
         private readonly RentalRepositoryInterface $rentalRepository,
         private readonly UnitRepositoryInterface $unitRepository,
+        private readonly UserRepositoryInterface $userRepository,
         private readonly RentalPolicyService $policyService,
         private readonly RentalPricingService $pricingService,
     ) {}
@@ -25,10 +28,11 @@ class CreateRental
     public function execute(CreateRentalData $data): Rental
     {
         return DB::transaction(function () use ($data) {
+            $this->userRepository->lockForUpdate($data->userId);
             $unit = $this->unitRepository->lockForUpdate($data->unitId);
 
             if (! $unit) {
-                throw new \DomainException('Unit tidak ditemukan');
+                throw new DomainException('Unit tidak ditemukan');
             }
 
             $activeCount = $this->rentalRepository->countActiveByUser($data->userId);

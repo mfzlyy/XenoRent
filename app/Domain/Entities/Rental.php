@@ -41,6 +41,10 @@ class Rental
 
         $diff = $this->dueAt->diff($end);
 
+        if ($end <= $this->dueAt) {
+            return 0;
+        }
+
         return max(0, $diff->days);
     }
 }

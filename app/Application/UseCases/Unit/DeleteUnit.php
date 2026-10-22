@@ -4,6 +4,7 @@ namespace App\Application\UseCases\Unit;
 
 use App\Application\Interfaces\UnitRepositoryInterface;
 use App\Domain\Exceptions\DomainException;
+use Illuminate\Support\Facades\DB;
 
 class DeleteUnit
 {
@@ -13,16 +14,22 @@ class DeleteUnit
 
     public function execute(int $id): bool
     {
-        $unit = $this->unitRepository->findById($id);
+        return DB::transaction(function () use ($id): bool {
+            $unit = $this->unitRepository->lockForUpdate($id);
 
-        if (! $unit) {
-            throw new DomainException('Unit tidak ditemukan');
-        }
+            if (! $unit) {
+                throw new DomainException('Unit tidak ditemukan');
+            }
 
-        if ($unit->status->value === 'disewa') {
-            throw new DomainException('Unit masih disewa, tidak bisa dihapus');
-        }
+            if ($unit->status->value === 'disewa') {
+                throw new DomainException('Unit masih disewa, tidak bisa dihapus');
+            }
 
-        return $this->unitRepository->delete($id);
+            if ($this->unitRepository->hasActiveRentals($id)) {
+                throw new DomainException('Unit masih memiliki transaksi sewa aktif, tidak bisa dihapus');
+            }
+
+            return $this->unitRepository->delete($id);
+        });
     }
 }

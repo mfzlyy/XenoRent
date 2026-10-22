@@ -52,6 +52,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('members/{id}', [AdminMemberController::class, 'update'])->name('members.update');
     Route::delete('members/{id}', [AdminMemberController::class, 'destroy'])->name('members.destroy');
     Route::get('members/{id}/rentals', [AdminMemberController::class, 'rentals'])->name('members.rentals');
+    Route::get('members/{id}/rentals/print', [AdminMemberController::class, 'printRentals'])->name('members.rentals.print');
     Route::get('rentals/active', [AdminRentalController::class, 'active'])->name('rentals.active');
     Route::post('rentals/{rental}/return', [AdminRentalController::class, 'return'])->name('rentals.return');
 });

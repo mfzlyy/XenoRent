@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Infrastructure\Eloquent\CategoryEloquent;
 use App\Infrastructure\Eloquent\ProfileEloquent;
+use App\Infrastructure\Eloquent\RentalEloquent;
 use App\Infrastructure\Eloquent\UnitEloquent;
 use App\Infrastructure\Eloquent\UserEloquent;
 use Illuminate\Database\Seeder;
@@ -13,64 +14,74 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin user
-        $admin = UserEloquent::create([
-            'name' => 'Admin XenoRent',
-            'email' => 'admin@xenorent.test',
-            'password' => Hash::make('password123'),
-            'role' => 'admin',
-        ]);
-
-        ProfileEloquent::create([
-            'user_id' => $admin->id,
-            'phone' => '081234567890',
-            'address' => 'Hanggar Pusat XenoRent, Sektor 07',
-        ]);
-
-        // Member user
-        $member = UserEloquent::create([
-            'name' => 'Anggota Demo',
-            'email' => 'anggota@xenorent.test',
-            'password' => Hash::make('password123'),
-            'role' => 'anggota',
-        ]);
-
-        ProfileEloquent::create([
-            'user_id' => $member->id,
-            'phone' => '082345678901',
-            'address' => 'Jl. Antargalaksi No. 42, Neo Jakarta',
-        ]);
-
-        // Categories
-        $categories = [
-            ['name' => 'Scout', 'description' => 'Kapal pengintaip ringan dan cepat'],
-            ['name' => 'Cruiser', 'description' => 'Kapal menengah serbaguna'],
-            ['name' => 'Battleship', 'description' => 'Kapal tempur berat bertahan lama'],
-            ['name' => 'Carrier', 'description' => 'Kapal induk pembawa drone dan shuttle'],
-            ['name' => 'Transport', 'description' => 'Kapal kargo dan penumpang massal'],
+        $users = [
+            ['name' => 'Admin XenoRent', 'email' => 'admin@xenorent.test', 'role' => 'admin', 'phone' => '081200000001', 'address' => 'Hanggar Utama, Sektor 7'],
+            ['name' => 'Rina Kosmos', 'email' => 'rina@xenorent.test', 'role' => 'anggota', 'phone' => '081200000002', 'address' => 'Jl. Orbit No. 12'],
+            ['name' => 'Bima Nebula', 'email' => 'bima@xenorent.test', 'role' => 'anggota', 'phone' => '081200000003', 'address' => 'Jl. Galaksi No. 5'],
         ];
-
-        $createdCategories = [];
-        foreach ($categories as $cat) {
-            $createdCategories[] = CategoryEloquent::create($cat);
+        $createdUsers = [];
+        foreach ($users as $userData) {
+            $user = UserEloquent::withTrashed()->updateOrCreate(
+                ['email' => $userData['email']],
+                [
+                    'name' => $userData['name'],
+                    'password' => Hash::make('password'),
+                    'role' => $userData['role'],
+                    'deleted_at' => null,
+                ],
+            );
+            ProfileEloquent::updateOrCreate(
+                ['user_id' => $user->id],
+                ['phone' => $userData['phone'], 'address' => $userData['address']],
+            );
+            $createdUsers[$userData['name']] = $user;
         }
 
-        // Units
-        $units = [
-            ['code' => 'ZTS-001', 'name' => 'Zeta Saucer', 'description' => 'Scout tipe klasik, cocok untuk rekognisi cepat', 'status' => 'tersedia', 'categories' => [1]],
-            ['code' => 'ZTS-002', 'name' => 'Zeta Saucer Mk II', 'description' => 'Versi upgraded dengan sensor jangkauan ganda', 'status' => 'tersedia', 'categories' => [1]],
-            ['code' => 'XCR-101', 'name' => 'Xylon Cruiser', 'description' => 'Cruiser standar armada, seimbang speed & firepower', 'status' => 'tersedia', 'categories' => [2]],
-            ['code' => 'XCR-102', 'name' => 'Xylon Cruiser Prime', 'description' => 'Varian komando dengan suite komunikasi lanjut', 'status' => 'tersedia', 'categories' => [2]],
-            ['code' => 'VBS-201', 'name' => 'Void Battleship', 'description' => 'Battleship kelas utama, hull tebal & battery ion', 'status' => 'tersedia', 'categories' => [3]],
-            ['code' => 'NCA-301', 'name' => 'Nebula Carrier', 'description' => 'Carrier raksasa, kapasitas 144 drone tempur', 'status' => 'tersedia', 'categories' => [4]],
-            ['code' => 'MTP-401', 'name' => 'Mass Transporter', 'description' => 'Transport muatan besar, cocok relokasi koloni', 'status' => 'tersedia', 'categories' => [5]],
-        ];
+        $categoryNames = ['Piring Terbang', 'Pengintai', 'Kargo', 'Penumpang', 'Antargalaksi', 'Ramah Atmosfer Bumi'];
+        $categories = [];
+        foreach ($categoryNames as $name) {
+            $categories[$name] = CategoryEloquent::updateOrCreate(['name' => $name], ['description' => null]);
+        }
 
-        foreach ($units as $unitData) {
-            $catIds = $unitData['categories'];
-            unset($unitData['categories']);
-            $unit = UnitEloquent::create($unitData);
-            $unit->categories()->attach($catIds);
+        $unitData = [
+            ['ZTS-001', 'Zeta Saucer', 'disewa', ['Piring Terbang', 'Penumpang']],
+            ['ZTS-002', 'Zeta Saucer', 'tersedia', ['Piring Terbang', 'Penumpang']],
+            ['ZTS-003', 'Zeta Saucer', 'tersedia', ['Piring Terbang', 'Penumpang', 'Ramah Atmosfer Bumi']],
+            ['NBS-001', 'Nebula Scout', 'disewa', ['Pengintai', 'Antargalaksi']],
+            ['NBS-002', 'Nebula Scout', 'tersedia', ['Pengintai', 'Antargalaksi']],
+            ['KPH-001', 'Kepler Hauler', 'tersedia', ['Kargo']],
+            ['KPH-002', 'Kepler Hauler', 'tersedia', ['Kargo', 'Ramah Atmosfer Bumi']],
+            ['ADC-001', 'Andromeda Cruiser', 'tersedia', ['Penumpang', 'Antargalaksi']],
+            ['ORG-001', 'Orion Glider', 'tersedia', ['Pengintai', 'Ramah Atmosfer Bumi']],
+            ['ORG-002', 'Orion Glider', 'tersedia', ['Pengintai', 'Ramah Atmosfer Bumi']],
+        ];
+        $units = [];
+        foreach ($unitData as [$code, $name, $status, $categoryNames]) {
+            $unit = UnitEloquent::withTrashed()->updateOrCreate(
+                ['code' => $code],
+                ['name' => $name, 'description' => null, 'status' => $status, 'deleted_at' => null],
+            );
+            $unit->categories()->sync(array_map(fn (string $categoryName): int => $categories[$categoryName]->id, $categoryNames));
+            $units[$code] = $unit;
+        }
+
+        $seedDay = today();
+        $rentals = [
+            ['Rina Kosmos', 'ZTS-001', -2, 3, null, 0, 'disewa'],
+            ['Rina Kosmos', 'NBS-001', -8, -3, null, 0, 'disewa'],
+            ['Bima Nebula', 'KPH-001', -12, -7, -5, 20000, 'dikembalikan'],
+        ];
+        foreach ($rentals as [$userName, $unitCode, $rentedOffset, $dueOffset, $returnedOffset, $fine, $status]) {
+            RentalEloquent::updateOrCreate(
+                ['user_id' => $createdUsers[$userName]->id, 'unit_id' => $units[$unitCode]->id],
+                [
+                    'rented_at' => $seedDay->copy()->addDays($rentedOffset),
+                    'due_at' => $seedDay->copy()->addDays($dueOffset),
+                    'returned_at' => $returnedOffset === null ? null : $seedDay->copy()->addDays($returnedOffset),
+                    'fine_amount' => $fine,
+                    'status' => $status,
+                ],
+            );
         }
     }
 }

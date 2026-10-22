@@ -5,6 +5,7 @@ namespace App\Presentation\Http\Controllers;
 use App\Application\DTOs\ReturnRentalData;
 use App\Application\Interfaces\RentalRepositoryInterface;
 use App\Application\UseCases\Rental\ReturnRental;
+use App\Domain\Exceptions\DomainException;
 use Illuminate\Http\Request;
 
 class AdminRentalController extends Controller
@@ -19,7 +20,11 @@ class AdminRentalController extends Controller
     public function return(Request $request, int $id, ReturnRental $returnRental)
     {
         $data = new ReturnRentalData(rentalId: $id);
-        $rental = $returnRental->execute($data);
+        try {
+            $rental = $returnRental->execute($data);
+        } catch (DomainException $exception) {
+            return back()->withErrors(['rental' => $exception->getMessage()]);
+        }
 
         $fineText = $rental->fineAmount > 0
             ? 'Denda: Rp'.number_format($rental->fineAmount, 0, ',', '.')

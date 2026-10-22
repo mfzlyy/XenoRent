@@ -9,6 +9,7 @@ use App\Application\Interfaces\UnitRepositoryInterface;
 use App\Application\UseCases\Unit\CreateUnit;
 use App\Application\UseCases\Unit\DeleteUnit;
 use App\Application\UseCases\Unit\UpdateUnit;
+use App\Domain\Exceptions\DomainException;
 use Illuminate\Http\Request;
 
 class AdminUnitController extends Controller
@@ -24,17 +25,17 @@ class AdminUnitController extends Controller
     public function store(Request $request, CreateUnit $createUnit)
     {
         $data = $request->validate([
-            'code' => 'required|string|max:20|unique:units,code',
+            'code' => 'required|string|alpha_dash|max:20|unique:units,code',
             'name' => 'required|string|max:100',
             'description' => 'nullable|string|max:1000',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => 'exists:categories,id',
-        ]);
+        ], $this->validationMessages(), $this->validationAttributes());
 
         $unitData = new CreateUnitData(
             code: $data['code'],
             name: $data['name'],
-            description: $data['description'],
+            description: $data['description'] ?? null,
             categoryIds: $data['category_ids'],
         );
 
@@ -46,17 +47,17 @@ class AdminUnitController extends Controller
     public function update(Request $request, int $id, UpdateUnit $updateUnit)
     {
         $data = $request->validate([
-            'code' => 'required|string|max:20|unique:units,code,'.$id,
+            'code' => 'required|string|alpha_dash|max:20|unique:units,code,'.$id,
             'name' => 'required|string|max:100',
             'description' => 'nullable|string|max:1000',
             'category_ids' => 'required|array|min:1',
             'category_ids.*' => 'exists:categories,id',
-        ]);
+        ], $this->validationMessages(), $this->validationAttributes());
 
         $unitData = new UpdateUnitData(
             code: $data['code'],
             name: $data['name'],
-            description: $data['description'],
+            description: $data['description'] ?? null,
             categoryIds: $data['category_ids'],
         );
 
@@ -65,9 +66,40 @@ class AdminUnitController extends Controller
         return back()->with('success', 'Unit berhasil diperbarui');
     }
 
+    /** @return array<string, string> */
+    private function validationMessages(): array
+    {
+        return [
+            'required' => ':attribute wajib diisi.',
+            'string' => ':attribute harus berupa teks.',
+            'alpha_dash' => ':attribute hanya boleh berisi huruf, angka, tanda hubung, dan garis bawah.',
+            'max' => ':attribute tidak boleh lebih dari :max karakter.',
+            'array' => ':attribute harus berupa daftar.',
+            'min' => ':attribute harus memiliki minimal :min pilihan.',
+            'exists' => ':attribute yang dipilih tidak valid.',
+            'code.unique' => 'Kode unit sudah dipakai',
+        ];
+    }
+
+    /** @return array<string, string> */
+    private function validationAttributes(): array
+    {
+        return [
+            'code' => 'kode',
+            'name' => 'nama',
+            'description' => 'deskripsi',
+            'category_ids' => 'kategori',
+            'category_ids.*' => 'kategori',
+        ];
+    }
+
     public function destroy(int $id, DeleteUnit $deleteUnit)
     {
-        $deleteUnit->execute($id);
+        try {
+            $deleteUnit->execute($id);
+        } catch (DomainException $exception) {
+            return back()->withErrors(['unit' => $exception->getMessage()]);
+        }
 
         return back()->with('success', 'Unit berhasil dihapus');
     }
