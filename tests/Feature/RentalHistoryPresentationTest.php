@@ -45,6 +45,37 @@ class RentalHistoryPresentationTest extends TestCase
         $this->assertStringContainsString('Data unit tidak ditemukan', $html);
     }
 
+    public function test_admin_rental_pages_render_their_table_partials(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $member = User::factory()->create(['role' => 'anggota']);
+        $unit = UnitEloquent::create([
+            'code' => 'RENDER-01',
+            'name' => 'Rental render unit',
+            'status' => 'disewa',
+        ]);
+        RentalEloquent::create([
+            'user_id' => $member->id,
+            'unit_id' => $unit->id,
+            'rented_at' => '2025-03-01',
+            'due_at' => '2025-03-10',
+            'status' => 'disewa',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.rentals.active'))
+            ->assertOk()
+            ->assertSee('Rental render unit')
+            ->assertSee('Proses kembali')
+            ->assertDontSee("@include('admin.partials.rental-table'");
+
+        $this->get(route('admin.members.rentals', $member->id))
+            ->assertOk()
+            ->assertSee('Rental render unit')
+            ->assertSee('Belum dikembalikan')
+            ->assertDontSee("@include('rentals.partials.rental-table'");
+    }
+
     public function test_print_view_shows_return_date_and_rentals_beyond_first_page(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
