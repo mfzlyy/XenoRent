@@ -1,6 +1,6 @@
 # Manual Book
 
-**Panduan Pengguna XenoRent — Sistem Rental Kapal Alien**  
+**XenoRent — Sistem Rental Kapal Alien**  
 Versi 1.0 · 23 Oktober 2026  
 Disusun oleh: Muhammad Fazly Radithya, Stevy Reuben Januardi, Muhammad Nadhif Aqila
 

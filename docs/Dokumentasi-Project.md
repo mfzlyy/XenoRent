@@ -1,6 +1,6 @@
 ---
-title: "06 Dokumentasi Project"
-subtitle: "Dokumentasi Teknis XenoRent — Sistem Rental Kapal Alien"
+title: "Dokumentasi Project"
+subtitle: "XenoRent — Sistem Rental Kapal Alien"
 author:
   - Muhammad Fazly Radithya
   - Stevy Reuben Januardi
