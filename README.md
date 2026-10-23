@@ -80,6 +80,8 @@ Hasil UAT beserta tangkapan layar per skenario ada di [docs/uat/Hasil-UAT.md](do
 - [Flowchart & ERD](docs/Flowchart-ERD.md) — alur proses dan rancangan database
 - [PRD](docs/PRD.md) — fitur, kriteria penerimaan, validasi, dan data seed
 - [Hasil UAT](docs/uat/Hasil-UAT.md)
+- [Manual Book](docs/uat/Manual-Book.md)
+- [Dokumentasi Project](docs/uat/Dokumentasi-Project.md)
 
 ## Teknologi
 
