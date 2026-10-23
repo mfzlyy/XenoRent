@@ -1,58 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# XenoRent — Sistem Rental Kapal Alien
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+XenoRent adalah aplikasi web untuk menyewa kapal alien dari sebuah hanggar. Anggota bisa mendaftar, mencari kapal berdasarkan nama, lalu menyewa maksimal 2 unit selama paling lama 5 hari. Pengembalian hanya diproses oleh Admin, dan keterlambatan dikenai denda otomatis.
 
-## About Laravel
+## Identitas Tim
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| | |
+|---|---|
+| **Nama kelompok** | XenoRent |
+| **Nama tim** | XenoRent |
+| **Nama project** | XenoRent |
+| **Anggota tim** | Frontend: Muhammad Nadhif Aqila, Backend: Stevy Reuben Januardi, Dokumentasi: Muhammad Fazly Radithya |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Video Demo
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+LINK
 
-## Learning Laravel
+## Fitur
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Semua pengguna**
+- Registrasi mandiri (otomatis berperan Anggota), login, dan logout.
+- Ubah profil sendiri (satu akun = satu profil).
+- Daftar dan detail unit, pencarian unit berdasarkan nama (tidak membedakan huruf besar-kecil, cocok sebagian).
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Anggota**
+- Sewa unit: maksimal 2 sewa aktif bersamaan, jatuh tempo otomatis tanggal sewa + 5 hari.
+- Sewa Saya: daftar sewa milik sendiri beserta jatuh tempo dan denda.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+**Admin**
+- Kelola unit (tambah, ubah, hapus; satu unit bisa punya banyak kategori; kode unit unik, nama boleh sama).
+- Kelola kategori dan anggota (tambah, ubah, hapus).
+- Sewa Aktif: lihat semua unit yang sedang disewa dan proses pengembalian; denda dihitung otomatis.
+- Riwayat sewa per anggota dan versi cetak (bisa disimpan sebagai PDF).
 
-## Agentic Development
+**Aturan bisnis** ditegakkan di backend: kuota 2 unit, unit hanya bisa disewa saat tersedia, sewa dan pengembalian berjalan dalam satu transaksi database, dan riwayat sewa tidak hilang saat unit atau anggota dihapus (soft delete).
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Denda = hari terlambat × tarif per hari (bawaan Rp10.000). Tarif dan durasi sewa diatur lewat `.env`: `RENTAL_DAILY_FINE` dan `RENTAL_DURATION_DAYS`.
+
+## Skema Database
+
+![ERD XenoRent](docs/images/erd.png)
+
+Enam tabel inti: `users`, `profiles`, `categories`, `units`, `category_unit`, `rentals`. Penjelasan lengkap ada di [docs/Flowchart-ERD.md](docs/Flowchart-ERD.md).
+
+## Menjalankan Aplikasi
+
+Kebutuhan: PHP 8.3+, Composer, Node.js, dan SQLite.
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate:fresh --seed
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Buka http://localhost:8000. Satu perintah `php artisan migrate:fresh --seed` membangun ulang seluruh database beserta data contoh.
 
-## Contributing
+### Akun contoh (password semua akun: `password`)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Peran | Email |
+|---|---|
+| Admin | admin@xenorent.test |
+| Anggota | rina@xenorent.test (kuota penuh, ada sewa terlambat) |
+| Anggota | bima@xenorent.test (kuota kosong, punya riwayat dengan denda) |
 
-## Code of Conduct
+## Pengujian
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan test        # PHPUnit (unit dan feature test backend)
+npm run uat             # UAT end-to-end dengan Playwright
+```
 
-## Security Vulnerabilities
+Hasil UAT beserta tangkapan layar per skenario ada di [docs/uat/Hasil-UAT.md](docs/uat/Hasil-UAT.md).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Dokumentasi
 
-## License
+- [BRD](docs/BRD.md) — kebutuhan bisnis dan aturan bisnis
+- [Flowchart & ERD](docs/Flowchart-ERD.md) — alur proses dan rancangan database
+- [PRD](docs/PRD.md) — fitur, kriteria penerimaan, validasi, dan data seed
+- [Hasil UAT](docs/uat/Hasil-UAT.md)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Teknologi
+
+Laravel 13, PHP 8.3, SQLite, Blade, CSS kustom (`public/css/xenorent.css`).
