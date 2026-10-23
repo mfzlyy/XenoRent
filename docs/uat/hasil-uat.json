@@ -1,0 +1,1730 @@
+{
+  "KP-01": {
+    "kode": "KP-01",
+    "judul": "Registrasi anggota dengan data valid",
+    "fitur": "F-01",
+    "ref": "BR-02, BR-04, ATB-11",
+    "langkah": [
+      "Buka /register sebagai tamu.",
+      "Isi nama, email, password, konfirmasi password, telepon, dan alamat dengan data valid.",
+      "Tekan \"Daftar sebagai anggota\"."
+    ],
+    "harapan": "Akun berperan anggota dan profilnya tersimpan; pengguna langsung login dan masuk Dashboard Anggota dengan sisa kuota 2 dari 2.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-01_01_form-registrasi-terisi-data-valid.png",
+        "label": "Form registrasi terisi data valid"
+      },
+      {
+        "berkas": "KP-01_02_dashboard-anggota-setelah-registrasi-sisa-kuota-2-dari-2.png",
+        "label": "Dashboard anggota setelah registrasi, sisa kuota 2 dari 2"
+      }
+    ],
+    "durasiMs": 1298,
+    "dijalankan": "2026-10-23T00:11:10.635Z"
+  },
+  "KP-02": {
+    "kode": "KP-02",
+    "judul": "Registrasi dengan email yang sudah dipakai",
+    "fitur": "F-01",
+    "ref": "BR-04, ATB-11, NFR-02, NFR-03",
+    "langkah": [
+      "Buka /register sebagai tamu.",
+      "Isi form dengan email rina@xenorent.test yang sudah terdaftar.",
+      "Tekan \"Daftar sebagai anggota\"."
+    ],
+    "harapan": "Registrasi ditolak dengan pesan \"Email sudah terdaftar\"; akun tidak bertambah dan isian lain tidak hilang.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-02_01_registrasi-ditolak-karena-email-sudah-dipakai-isian-lain-tetap-terisi.png",
+        "label": "Registrasi ditolak karena email sudah dipakai, isian lain tetap terisi"
+      }
+    ],
+    "durasiMs": 1167,
+    "dijalankan": "2026-10-23T00:11:11.811Z"
+  },
+  "KP-03": {
+    "kode": "KP-03",
+    "judul": "Login dengan email dan password benar",
+    "fitur": "F-02",
+    "ref": "BR-01",
+    "langkah": [
+      "Buka /login lalu login sebagai Admin.",
+      "Keluar, lalu login sebagai Anggota (Rina) dan Anggota (Bima)."
+    ],
+    "harapan": "Admin masuk ke Dashboard Admin; Anggota masuk ke Dashboard Anggota.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-03_01_form-login-diisi-akun-admin.png",
+        "label": "Form login diisi akun Admin"
+      },
+      {
+        "berkas": "KP-03_02_dashboard-admin-setelah-login.png",
+        "label": "Dashboard Admin setelah login"
+      },
+      {
+        "berkas": "KP-03_03_dashboard-anggota-rina-setelah-login.png",
+        "label": "Dashboard Anggota (Rina) setelah login"
+      }
+    ],
+    "durasiMs": 2861,
+    "dijalankan": "2026-10-23T00:11:14.678Z"
+  },
+  "KP-04": {
+    "kode": "KP-04",
+    "judul": "Login dengan password salah",
+    "fitur": "F-02",
+    "ref": "NFR-01",
+    "langkah": [
+      "Buka /login.",
+      "Isi email admin@xenorent.test dengan password yang salah.",
+      "Tekan \"Masuk\"."
+    ],
+    "harapan": "Tetap di halaman login dengan pesan gagal; password tidak ditampilkan ulang.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-04_01_login-gagal-pesan-tampil-dan-kolom-password-kosong-kembali.png",
+        "label": "Login gagal: pesan tampil dan kolom password kosong kembali"
+      }
+    ],
+    "durasiMs": 1079,
+    "dijalankan": "2026-10-23T00:11:15.762Z"
+  },
+  "KP-05": {
+    "kode": "KP-05",
+    "judul": "Tamu membuka halaman selain login/registrasi",
+    "fitur": "F-02",
+    "ref": "BR-01, NFR-01",
+    "langkah": [
+      "Tanpa login, buka URL /dashboard, /units, /units/1, /profile, /rentals/mine, dan seluruh halaman /admin/*."
+    ],
+    "harapan": "Setiap URL mengarahkan tamu ke halaman login.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-05_01_tamu-membuka-dashboard-diarahkan-ke-login.png",
+        "label": "Tamu membuka /dashboard diarahkan ke login"
+      },
+      {
+        "berkas": "KP-05_02_tamu-membuka-admin-units-diarahkan-ke-login.png",
+        "label": "Tamu membuka /admin/units diarahkan ke login"
+      }
+    ],
+    "durasiMs": 3975,
+    "dijalankan": "2026-10-23T00:11:19.745Z"
+  },
+  "KP-06": {
+    "kode": "KP-06",
+    "judul": "Anggota membuka halaman Admin",
+    "fitur": "F-02",
+    "ref": "BR-01, TB-04, NFR-01",
+    "langkah": [
+      "Login sebagai Anggota (Rina).",
+      "Buka /admin/units, /admin/categories, /admin/members, /admin/rentals/active, dan riwayat sewa anggota."
+    ],
+    "harapan": "Setiap URL ditolak dengan halaman \"Akses ditolak\" (403) berikut tombol kembali ke Dashboard.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-06_01_anggota-membuka-admin-units-halaman-akses-ditolak-403.png",
+        "label": "Anggota membuka /admin/units: halaman Akses ditolak (403)"
+      }
+    ],
+    "durasiMs": 1993,
+    "dijalankan": "2026-10-23T00:11:21.741Z"
+  },
+  "KP-07": {
+    "kode": "KP-07",
+    "judul": "Pengguna mengubah telepon dan alamat profil sendiri",
+    "fitur": "F-03",
+    "ref": "BR-05, TB-04",
+    "langkah": [
+      "Login sebagai Rina.",
+      "Buka menu Profil.",
+      "Ubah telepon dan alamat lalu tekan \"Simpan profil\"."
+    ],
+    "harapan": "Data profil Rina tersimpan dan tampil di form; profil anggota lain tidak berubah.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-07_01_halaman-profil-rina-sebelum-diubah.png",
+        "label": "Halaman profil Rina sebelum diubah"
+      },
+      {
+        "berkas": "KP-07_02_profil-rina-tersimpan-dengan-pesan-sukses.png",
+        "label": "Profil Rina tersimpan dengan pesan sukses"
+      }
+    ],
+    "durasiMs": 1696,
+    "dijalankan": "2026-10-23T00:11:23.444Z"
+  },
+  "KP-07b": {
+    "kode": "KP-07b",
+    "judul": "Profil yang diubah adalah milik akun yang sedang login (ID dari sesi, bukan dari form)",
+    "fitur": "F-03",
+    "ref": "BR-05, Flowchart 6B",
+    "langkah": [
+      "Login sebagai Rina.",
+      "Buka Profil dan kirim form dengan tambahan field user_id milik Bima.",
+      "Periksa profil Bima."
+    ],
+    "harapan": "Profil Bima tetap sama; hanya profil Rina yang berubah.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-07b_01_profil-rina-diubah-dengan-field-user-id-bima-disisipkan.png",
+        "label": "Profil Rina diubah dengan field user_id Bima disisipkan"
+      }
+    ],
+    "durasiMs": 1612,
+    "dijalankan": "2026-10-23T00:11:25.061Z"
+  },
+  "F-02b": {
+    "kode": "F-02b",
+    "judul": "Logout mengakhiri sesi",
+    "fitur": "F-02",
+    "ref": "BR-01",
+    "langkah": [
+      "Login sebagai Rina lalu tekan \"Keluar\".",
+      "Buka /dashboard."
+    ],
+    "harapan": "Pengguna kembali ke halaman login dan tidak bisa membuka /dashboard tanpa login ulang.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "F-02b_01_setelah-menekan-keluar-pengguna-di-halaman-login.png",
+        "label": "Setelah menekan Keluar, pengguna di halaman login"
+      }
+    ],
+    "durasiMs": 1645,
+    "dijalankan": "2026-10-23T00:11:26.709Z"
+  },
+  "S-05": {
+    "kode": "S-05",
+    "judul": "Dashboard menampilkan sisa kuota (Anggota) dan angka ringkasan (Admin)",
+    "fitur": "S-05, C-03",
+    "ref": "PRD bagian 3",
+    "langkah": [
+      "Login sebagai Rina (2 sewa aktif) dan Bima (0 sewa aktif), lalu Admin."
+    ],
+    "harapan": "Rina melihat sisa kuota 0 dari 2; Bima 2 dari 2; Admin melihat unit tersedia 8, sewa aktif 2, anggota 2.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "S-05_01_dashboard-rina-kuota-penuh-0-dari-2.png",
+        "label": "Dashboard Rina: kuota penuh (0 dari 2)"
+      },
+      {
+        "berkas": "S-05_02_dashboard-admin-angka-ringkasan-hanggar.png",
+        "label": "Dashboard Admin: angka ringkasan hanggar"
+      }
+    ],
+    "durasiMs": 2861,
+    "dijalankan": "2026-10-23T00:11:29.577Z"
+  },
+  "KP-08": {
+    "kode": "KP-08",
+    "judul": "Daftar unit menampilkan kode, nama, kategori, dan status",
+    "fitur": "F-04",
+    "ref": "BR-06, BR-07",
+    "langkah": [
+      "Login sebagai Anggota (Bima).",
+      "Buka menu Daftar Unit."
+    ],
+    "harapan": "Tampil 10 unit seed; setiap unit memuat kode, nama, kategori, dan status.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-08_01_daftar-unit-10-unit-lengkap-dengan-kode-nama-kategori-dan-status.png",
+        "label": "Daftar unit: 10 unit lengkap dengan kode, nama, kategori, dan status"
+      }
+    ],
+    "durasiMs": 1506,
+    "dijalankan": "2026-10-23T00:11:31.094Z"
+  },
+  "KP-09": {
+    "kode": "KP-09",
+    "judul": "Tiga unit bernama \"Zeta Saucer\" tampil terpisah dengan kode berbeda",
+    "fitur": "F-04",
+    "ref": "BR-07, ATB-07, TB-01",
+    "langkah": [
+      "Login sebagai Anggota.",
+      "Buka Daftar Unit dan perhatikan unit bernama Zeta Saucer."
+    ],
+    "harapan": "Tiga kartu \"Zeta Saucer\" tampil terpisah dengan kode ZTS-001, ZTS-002, ZTS-003.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-09_01_tiga-zeta-saucer-dengan-kode-unik-berbeda.png",
+        "label": "Tiga Zeta Saucer dengan kode unik berbeda"
+      }
+    ],
+    "durasiMs": 1349,
+    "dijalankan": "2026-10-23T00:11:32.448Z"
+  },
+  "KP-10": {
+    "kode": "KP-10",
+    "judul": "Pencarian \"zeta\" menemukan unit tanpa membedakan huruf besar-kecil",
+    "fitur": "F-05",
+    "ref": "BR-08, ATB-10",
+    "langkah": [
+      "Login sebagai Anggota.",
+      "Di Daftar Unit cari \"zeta\", lalu \"ZETA\", \"zEtA\", dan sebagian kata \"saucer\"."
+    ],
+    "harapan": "Semua unit yang namanya mengandung \"Zeta\" tampil, untuk huruf besar maupun kecil dan pencocokan sebagian.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-10_01_hasil-pencarian-zeta-tiga-zeta-saucer.png",
+        "label": "Hasil pencarian \"zeta\": tiga Zeta Saucer"
+      },
+      {
+        "berkas": "KP-10_02_hasil-pencarian-zeta-huruf-besar-sama-dengan-zeta.png",
+        "label": "Hasil pencarian \"ZETA\" (huruf besar) sama dengan \"zeta\""
+      }
+    ],
+    "durasiMs": 2473,
+    "dijalankan": "2026-10-23T00:11:34.927Z"
+  },
+  "KP-11": {
+    "kode": "KP-11",
+    "judul": "Pencarian tanpa hasil menampilkan pesan \"Unit tidak ditemukan\"",
+    "fitur": "F-05",
+    "ref": "BR-08",
+    "langkah": [
+      "Login sebagai Anggota.",
+      "Cari kata \"xyzabc\" yang tidak cocok dengan unit mana pun."
+    ],
+    "harapan": "Tampil pesan \"Unit tidak ditemukan\" beserta tautan Reset.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-11_01_pencarian-xyzabc-pesan-unit-tidak-ditemukan-dengan-tautan-reset.png",
+        "label": "Pencarian \"xyzabc\": pesan Unit tidak ditemukan dengan tautan Reset"
+      }
+    ],
+    "durasiMs": 1728,
+    "dijalankan": "2026-10-23T00:11:36.660Z"
+  },
+  "KP-12": {
+    "kode": "KP-12",
+    "judul": "Admin menambah unit dengan kode baru dan 2 kategori",
+    "fitur": "F-06",
+    "ref": "BR-06, BR-09, TB-01",
+    "langkah": [
+      "Login sebagai Admin lalu buka Kelola Unit.",
+      "Isi kode ZTS-004, nama Zeta Saucer, deskripsi, dan centang kategori Piring Terbang serta Penumpang.",
+      "Tekan \"Tambah unit\"."
+    ],
+    "harapan": "Unit tersimpan berstatus tersedia dengan 2 kategori dan tampil di daftar.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-12_01_form-tambah-unit-terisi-kode-zts-004-2-kategori.png",
+        "label": "Form tambah unit terisi (kode ZTS-004, 2 kategori)"
+      },
+      {
+        "berkas": "KP-12_02_unit-zts-004-tersimpan-tersedia-2-kategori.png",
+        "label": "Unit ZTS-004 tersimpan: tersedia, 2 kategori"
+      }
+    ],
+    "durasiMs": 1963,
+    "dijalankan": "2026-10-23T00:11:38.629Z"
+  },
+  "KP-13": {
+    "kode": "KP-13",
+    "judul": "Admin menambah unit dengan kode yang sudah ada",
+    "fitur": "F-06",
+    "ref": "BR-07, ATB-07, TB-01, NFR-02",
+    "langkah": [
+      "Login sebagai Admin lalu buka Kelola Unit.",
+      "Isi kode ZTS-001 (sudah dipakai), nama dan kategori, lalu tekan \"Tambah unit\"."
+    ],
+    "harapan": "Ditolak dengan pesan \"Kode unit sudah dipakai\"; tidak ada unit ganda dan isian tetap terisi.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-13_01_kode-zts-001-ditolak-karena-sudah-dipakai-isian-tetap-terisi.png",
+        "label": "Kode ZTS-001 ditolak karena sudah dipakai, isian tetap terisi"
+      }
+    ],
+    "durasiMs": 1761,
+    "dijalankan": "2026-10-23T00:11:40.395Z"
+  },
+  "KP-14": {
+    "kode": "KP-14",
+    "judul": "Admin menyimpan unit tanpa memilih kategori",
+    "fitur": "F-06",
+    "ref": "BR-06, BR-18",
+    "langkah": [
+      "Login sebagai Admin lalu buka Kelola Unit.",
+      "Isi kode ZTS-005 dan nama, tanpa mencentang kategori, lalu tekan \"Tambah unit\"."
+    ],
+    "harapan": "Ditolak dengan pesan \"Pilih minimal 1 kategori\"; unit tidak tersimpan.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-14_01_unit-tanpa-kategori-ditolak-isian-lain-tetap-terisi.png",
+        "label": "Unit tanpa kategori ditolak, isian lain tetap terisi"
+      }
+    ],
+    "durasiMs": 1776,
+    "dijalankan": "2026-10-23T00:11:42.177Z"
+  },
+  "KP-15": {
+    "kode": "KP-15",
+    "judul": "Admin menghapus unit yang sedang disewa",
+    "fitur": "F-06",
+    "ref": "ATB-08, INT-07",
+    "langkah": [
+      "Login sebagai Admin lalu buka Kelola Unit.",
+      "Buka \"Ubah data unit\" pada ZTS-001 (sedang disewa Rina) dan cari tombol hapus.",
+      "Paksa penghapusan lewat permintaan langsung ke URL hapus unit."
+    ],
+    "harapan": "Tombol hapus tidak tersedia; jika dipaksa, ditolak dengan pesan \"Unit masih disewa\" dan unit tetap ada.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-15_01_zts-001-sedang-disewa-tombol-hapus-unit-tidak-tersedia.png",
+        "label": "ZTS-001 sedang disewa: tombol Hapus unit tidak tersedia"
+      },
+      {
+        "berkas": "KP-15_02_penghapusan-dipaksa-lewat-url-ditolak-server.png",
+        "label": "Penghapusan dipaksa lewat URL ditolak server"
+      }
+    ],
+    "durasiMs": 1810,
+    "dijalankan": "2026-10-23T00:11:43.992Z"
+  },
+  "KP-16": {
+    "kode": "KP-16",
+    "judul": "Admin menghapus unit yang tidak sedang disewa; riwayat sewa lama tetap ada",
+    "fitur": "F-06",
+    "ref": "ATB-08, INT-08, TB-05",
+    "langkah": [
+      "Login sebagai Admin lalu buka Kelola Unit.",
+      "Pada KPH-001 (pernah disewa Bima, sudah dikembalikan) buka \"Ubah data unit\" lalu tekan \"Hapus unit\" dan setujui konfirmasi.",
+      "Buka riwayat sewa Bima."
+    ],
+    "harapan": "Unit hilang dari daftar; riwayat sewa Bima untuk unit tersebut tetap tampil.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-16_01_panel-ubah-unit-kph-001-terbuka-dengan-tombol-hapus-unit.png",
+        "label": "Panel ubah unit KPH-001 terbuka dengan tombol Hapus unit"
+      },
+      {
+        "berkas": "KP-16_02_kph-001-terhapus-dari-daftar-dengan-pesan-sukses.png",
+        "label": "KPH-001 terhapus dari daftar dengan pesan sukses"
+      },
+      {
+        "berkas": "KP-16_03_riwayat-sewa-bima-tetap-utuh-setelah-unit-kph-001-dihapus.png",
+        "label": "Riwayat sewa Bima tetap utuh setelah unit KPH-001 dihapus"
+      }
+    ],
+    "durasiMs": 2210,
+    "dijalankan": "2026-10-23T00:11:46.209Z"
+  },
+  "F-06b": {
+    "kode": "F-06b",
+    "judul": "Admin mengubah data unit dan kategorinya",
+    "fitur": "F-06",
+    "ref": "BR-09, BR-06",
+    "langkah": [
+      "Login sebagai Admin lalu buka Kelola Unit.",
+      "Buka \"Ubah data unit\" pada ZTS-002, ganti nama dan kategorinya, lalu simpan."
+    ],
+    "harapan": "Perubahan tersimpan dan tampil di daftar.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "F-06b_01_form-ubah-unit-zts-002-terisi-perubahan.png",
+        "label": "Form ubah unit ZTS-002 terisi perubahan"
+      },
+      {
+        "berkas": "F-06b_02_zts-002-setelah-diubah.png",
+        "label": "ZTS-002 setelah diubah"
+      }
+    ],
+    "durasiMs": 1946,
+    "dijalankan": "2026-10-23T00:11:48.160Z"
+  },
+  "F-06c": {
+    "kode": "F-06c",
+    "judul": "Admin menyimpan perubahan unit dengan kode milik unit lain",
+    "fitur": "F-06",
+    "ref": "BR-09, BR-18",
+    "langkah": [
+      "Login sebagai Admin lalu buka Kelola Unit.",
+      "Ubah kode ZTS-002 menjadi ZTS-003 (milik unit lain) lalu simpan."
+    ],
+    "harapan": "Ditolak dengan pesan kode sudah dipakai; kode ZTS-002 tidak berubah.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "F-06c_01_perubahan-kode-ke-zts-003-ditolak.png",
+        "label": "Perubahan kode ke ZTS-003 ditolak"
+      }
+    ],
+    "durasiMs": 1744,
+    "dijalankan": "2026-10-23T00:11:49.910Z"
+  },
+  "KP-17": {
+    "kode": "KP-17",
+    "judul": "Admin menambah kategori dengan nama yang sudah ada",
+    "fitur": "F-07",
+    "ref": "BR-10, NFR-02",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Kategori.",
+      "Isi nama \"Kargo\" (sudah ada) lalu tekan \"Tambah kategori\"."
+    ],
+    "harapan": "Ditolak dengan pesan \"Nama kategori sudah dipakai\"; jumlah kategori tidak bertambah.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-17_01_kategori-kargo-ditolak-karena-nama-sudah-dipakai.png",
+        "label": "Kategori \"Kargo\" ditolak karena nama sudah dipakai"
+      }
+    ],
+    "durasiMs": 1695,
+    "dijalankan": "2026-10-23T00:11:51.628Z"
+  },
+  "F-07b": {
+    "kode": "F-07b",
+    "judul": "Admin menambah dan mengubah kategori",
+    "fitur": "F-07",
+    "ref": "BR-10",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Kategori.",
+      "Tambah kategori \"Evakuasi\" dengan deskripsi.",
+      "Ubah namanya menjadi \"Evakuasi Darurat\" dan simpan."
+    ],
+    "harapan": "Kategori baru tampil dengan pesan sukses; perubahan nama tersimpan.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "F-07b_01_kategori-evakuasi-berhasil-ditambahkan.png",
+        "label": "Kategori Evakuasi berhasil ditambahkan"
+      },
+      {
+        "berkas": "F-07b_02_nama-kategori-berhasil-diubah.png",
+        "label": "Nama kategori berhasil diubah"
+      }
+    ],
+    "durasiMs": 2125,
+    "dijalankan": "2026-10-23T00:11:53.758Z"
+  },
+  "KP-18": {
+    "kode": "KP-18",
+    "judul": "Admin menghapus kategori yang dipakai beberapa unit",
+    "fitur": "F-07",
+    "ref": "BR-10, ATB-09",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Kategori.",
+      "Pada kategori \"Penumpang\" (dipakai 4 unit) buka \"Ubah kategori\", tekan \"Hapus kategori\", dan setujui konfirmasi.",
+      "Buka Daftar Unit."
+    ],
+    "harapan": "Kategori terhapus; seluruh 10 unit tetap ada tanpa kategori tersebut.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-18_01_kategori-penumpang-4-unit-terhubung-sebelum-dihapus.png",
+        "label": "Kategori Penumpang (4 unit terhubung) sebelum dihapus"
+      },
+      {
+        "berkas": "KP-18_02_kategori-penumpang-terhapus-dengan-pesan-sukses.png",
+        "label": "Kategori Penumpang terhapus dengan pesan sukses"
+      },
+      {
+        "berkas": "KP-18_03_seluruh-unit-tetap-ada-tag-penumpang-lepas-dari-unit.png",
+        "label": "Seluruh unit tetap ada; tag Penumpang lepas dari unit"
+      }
+    ],
+    "durasiMs": 1997,
+    "dijalankan": "2026-10-23T00:11:55.760Z"
+  },
+  "KP-19": {
+    "kode": "KP-19",
+    "judul": "Admin menambah anggota dengan data lengkap",
+    "fitur": "F-08",
+    "ref": "BR-11, BR-04",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Anggota.",
+      "Isi nama, email, telepon, alamat, password, dan konfirmasi password lalu tekan \"Tambah anggota\".",
+      "Keluar, lalu login memakai akun anggota baru tersebut."
+    ],
+    "harapan": "Akun anggota dan profilnya tersimpan; anggota baru bisa login ke Dashboard Anggota.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-19_01_form-tambah-anggota-terisi-lengkap.png",
+        "label": "Form tambah anggota terisi lengkap"
+      },
+      {
+        "berkas": "KP-19_02_anggota-baru-tampil-di-daftar-dengan-pesan-sukses.png",
+        "label": "Anggota baru tampil di daftar dengan pesan sukses"
+      },
+      {
+        "berkas": "KP-19_03_anggota-baru-berhasil-login-ke-dashboard-anggota.png",
+        "label": "Anggota baru berhasil login ke Dashboard Anggota"
+      }
+    ],
+    "durasiMs": 2511,
+    "dijalankan": "2026-10-23T00:11:58.275Z"
+  },
+  "KP-20": {
+    "kode": "KP-20",
+    "judul": "Admin mengubah data anggota dengan password dikosongkan",
+    "fitur": "F-08",
+    "ref": "BR-11, NFR-01",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Anggota.",
+      "Buka \"Ubah data anggota\" pada Bima, ubah nama dan telepon, biarkan password kosong, lalu simpan.",
+      "Keluar dan login sebagai Bima memakai password lama."
+    ],
+    "harapan": "Nama dan telepon tersimpan; password lama tetap berlaku.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-20_01_form-ubah-anggota-bima-kolom-password-dikosongkan.png",
+        "label": "Form ubah anggota Bima, kolom password dikosongkan"
+      },
+      {
+        "berkas": "KP-20_02_data-bima-tersimpan-dengan-pesan-sukses.png",
+        "label": "Data Bima tersimpan dengan pesan sukses"
+      },
+      {
+        "berkas": "KP-20_03_bima-masih-bisa-login-dengan-password-lama.png",
+        "label": "Bima masih bisa login dengan password lama"
+      }
+    ],
+    "durasiMs": 2496,
+    "dijalankan": "2026-10-23T00:12:00.777Z"
+  },
+  "KP-21": {
+    "kode": "KP-21",
+    "judul": "Admin menghapus anggota yang masih punya sewa aktif",
+    "fitur": "F-08",
+    "ref": "ATB-08, INT-07",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Anggota.",
+      "Buka \"Ubah data anggota\" pada Rina (2 sewa aktif) dan cari tombol hapus.",
+      "Paksa penghapusan lewat permintaan langsung ke URL hapus anggota."
+    ],
+    "harapan": "Tombol hapus tidak tersedia; jika dipaksa, ditolak dengan pesan \"Anggota masih punya sewa aktif\" dan akun tetap ada.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-21_01_rina-punya-sewa-aktif-tombol-hapus-akun-tidak-tersedia.png",
+        "label": "Rina punya sewa aktif: tombol Hapus akun tidak tersedia"
+      },
+      {
+        "berkas": "KP-21_02_penghapusan-dipaksa-lewat-url-ditolak-server.png",
+        "label": "Penghapusan dipaksa lewat URL ditolak server"
+      }
+    ],
+    "durasiMs": 1676,
+    "dijalankan": "2026-10-23T00:12:02.458Z"
+  },
+  "F-08b": {
+    "kode": "F-08b",
+    "judul": "Admin menghapus anggota tanpa sewa aktif; riwayat sewanya tetap utuh",
+    "fitur": "F-08",
+    "ref": "BR-11, ATB-08, INT-08, TB-05",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Anggota.",
+      "Pada Bima (tidak punya sewa aktif) buka \"Ubah data anggota\", tekan \"Hapus akun\", dan setujui konfirmasi.",
+      "Buka riwayat sewa Bima lewat URL riwayat."
+    ],
+    "harapan": "Anggota hilang dari daftar; riwayat sewa Bima tetap bisa dibuka lengkap dengan dendanya.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "F-08b_01_bima-terhapus-dari-daftar-anggota.png",
+        "label": "Bima terhapus dari daftar anggota"
+      },
+      {
+        "berkas": "F-08b_02_riwayat-sewa-bima-tetap-utuh-setelah-akunnya-dihapus.png",
+        "label": "Riwayat sewa Bima tetap utuh setelah akunnya dihapus"
+      }
+    ],
+    "durasiMs": 1878,
+    "dijalankan": "2026-10-23T00:12:04.341Z"
+  },
+  "KP-22": {
+    "kode": "KP-22",
+    "judul": "Anggota dengan 0 atau 1 sewa aktif menyewa unit tersedia",
+    "fitur": "F-09",
+    "ref": "BR-03, BR-12, BR-13, ATB-01, ATB-02, ATB-03, ATB-04",
+    "langkah": [
+      "Login sebagai Bima (0 sewa aktif).",
+      "Buka Daftar Unit, cari \"zeta\", buka detail ZTS-002, tekan \"Sewa kapal\" dan setujui konfirmasi.",
+      "Sewa satu unit lagi (NBS-002) saat sudah memegang 1 sewa aktif."
+    ],
+    "harapan": "Sewa tercatat, unit berubah disewa, jatuh tempo = hari ini + 5 hari; sewa kedua juga berhasil.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-22_01_detail-unit-zts-002-berstatus-tersedia-dengan-tombol-sewa-kapal.png",
+        "label": "Detail unit ZTS-002 berstatus tersedia dengan tombol Sewa kapal"
+      },
+      {
+        "berkas": "KP-22_02_sewa-berhasil-pesan-sukses-memuat-tanggal-jatuh-tempo-hari-ini-5.png",
+        "label": "Sewa berhasil: pesan sukses memuat tanggal jatuh tempo (hari ini + 5)"
+      },
+      {
+        "berkas": "KP-22_03_sewa-saya-bima-dua-sewa-aktif-lengkap-dengan-jatuh-tempo.png",
+        "label": "Sewa Saya Bima: dua sewa aktif lengkap dengan jatuh tempo"
+      }
+    ],
+    "durasiMs": 3260,
+    "dijalankan": "2026-10-23T00:12:07.625Z"
+  },
+  "KP-23": {
+    "kode": "KP-23",
+    "judul": "Anggota dengan 2 sewa aktif mencoba menyewa lagi",
+    "fitur": "F-09",
+    "ref": "BR-12, ATB-02, TB-02, NFR-02",
+    "langkah": [
+      "Login sebagai Rina (sudah memegang 2 unit aktif).",
+      "Buka detail unit ZTS-002 yang tersedia lalu tekan \"Sewa kapal\"."
+    ],
+    "harapan": "Ditolak dengan pesan \"Kuota sewa penuh (maksimal 2 unit)\"; sewa tidak bertambah dan unit tetap tersedia.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-23_01_sewa-ke-3-ditolak-kuota-sewa-penuh.png",
+        "label": "Sewa ke-3 ditolak: kuota sewa penuh"
+      }
+    ],
+    "durasiMs": 1611,
+    "dijalankan": "2026-10-23T00:12:09.241Z"
+  },
+  "KP-24": {
+    "kode": "KP-24",
+    "judul": "Anggota mencoba menyewa unit berstatus disewa",
+    "fitur": "F-09",
+    "ref": "ATB-03",
+    "langkah": [
+      "Login sebagai Bima.",
+      "Buka detail ZTS-001 yang sedang disewa dan perhatikan tombol Sewa.",
+      "Paksa penyewaan lewat permintaan langsung ke URL sewa unit tersebut."
+    ],
+    "harapan": "Tombol Sewa tidak aktif; jika dipaksa, ditolak dengan pesan \"Unit sedang disewa\" dan status sewa tidak berubah.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-24_01_detail-zts-001-tombol-sewa-tidak-tersedia-tertulis-unit-sedang-disewa.png",
+        "label": "Detail ZTS-001: tombol Sewa tidak tersedia, tertulis Unit sedang disewa"
+      },
+      {
+        "berkas": "KP-24_02_penyewaan-dipaksa-lewat-url-ditolak-server.png",
+        "label": "Penyewaan dipaksa lewat URL ditolak server"
+      }
+    ],
+    "durasiMs": 1796,
+    "dijalankan": "2026-10-23T00:12:11.041Z"
+  },
+  "KP-25": {
+    "kode": "KP-25",
+    "judul": "Admin membuka detail unit: tombol Sewa tidak tampil dan server menolak sewa dari Admin",
+    "fitur": "F-09",
+    "ref": "BR-03, PRD keputusan 2",
+    "langkah": [
+      "Login sebagai Admin lalu buka detail unit ZTS-002 yang tersedia.",
+      "Paksa penyewaan lewat permintaan langsung ke URL sewa."
+    ],
+    "harapan": "Tombol Sewa tidak tampil untuk Admin; permintaan paksa ditolak (403) dan unit tetap tersedia.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-25_01_detail-unit-tersedia-dilihat-admin-tidak-ada-tombol-sewa.png",
+        "label": "Detail unit tersedia dilihat Admin: tidak ada tombol Sewa"
+      },
+      {
+        "berkas": "KP-25_02_penyewaan-dipaksa-oleh-admin-ditolak-403.png",
+        "label": "Penyewaan dipaksa oleh Admin ditolak (403)"
+      }
+    ],
+    "durasiMs": 1610,
+    "dijalankan": "2026-10-23T00:12:12.657Z"
+  },
+  "KP-26": {
+    "kode": "KP-26",
+    "judul": "Sewa Saya hanya menampilkan sewa milik sendiri",
+    "fitur": "F-10",
+    "ref": "BR-16, TB-04",
+    "langkah": [
+      "Login sebagai Rina lalu buka Sewa Saya.",
+      "Keluar, login sebagai Bima lalu buka Sewa Saya."
+    ],
+    "harapan": "Rina hanya melihat 2 sewa aktifnya; Bima hanya melihat sewa KPH-001 yang selesai beserta denda; keduanya memuat jatuh tempo.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-26_01_sewa-saya-rina-hanya-2-sewa-aktif-miliknya.png",
+        "label": "Sewa Saya Rina: hanya 2 sewa aktif miliknya"
+      },
+      {
+        "berkas": "KP-26_02_sewa-saya-bima-hanya-sewa-kph-001-yang-selesai-beserta-denda-rp20-000.png",
+        "label": "Sewa Saya Bima: hanya sewa KPH-001 yang selesai beserta denda Rp20.000"
+      }
+    ],
+    "durasiMs": 2346,
+    "dijalankan": "2026-10-23T00:12:15.007Z"
+  },
+  "KP-27": {
+    "kode": "KP-27",
+    "judul": "Admin membuka Sewa Aktif: semua sewa berstatus disewa dari semua anggota",
+    "fitur": "F-11",
+    "ref": "BR-15, C-02",
+    "langkah": [
+      "Login sebagai Bima dan sewa ZTS-002, lalu keluar.",
+      "Login sebagai Admin lalu buka menu Sewa Aktif."
+    ],
+    "harapan": "Tampil seluruh sewa disewa dari Rina dan Bima (3 baris); sewa selesai tidak tampil; sewa lewat jatuh tempo bertanda Terlambat.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-27_01_sewa-aktif-admin-3-sewa-dari-2-anggota-nbs-001-bertanda-terlambat.png",
+        "label": "Sewa Aktif Admin: 3 sewa dari 2 anggota, NBS-001 bertanda Terlambat"
+      }
+    ],
+    "durasiMs": 2829,
+    "dijalankan": "2026-10-23T00:12:17.841Z"
+  },
+  "KP-28": {
+    "kode": "KP-28",
+    "judul": "Admin memproses pengembalian sebelum atau tepat di jatuh tempo",
+    "fitur": "F-12",
+    "ref": "BR-14, ATB-02, ATB-04, ATB-05, ATB-06",
+    "langkah": [
+      "Login sebagai Admin lalu buka Sewa Aktif.",
+      "Pada ZTS-001 milik Rina (jatuh tempo hari ini + 3) tekan \"Proses kembali\" dan setujui konfirmasi.",
+      "Ulangi untuk sewa Bima yang jatuh temponya tepat hari ini.",
+      "Login sebagai Rina dan periksa Sewa Saya serta sisa kuota."
+    ],
+    "harapan": "Status sewa dikembalikan, denda Rp0, unit kembali tersedia, dan kuota anggota pulih.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-28_01_sewa-aktif-sebelum-pengembalian.png",
+        "label": "Sewa Aktif sebelum pengembalian"
+      },
+      {
+        "berkas": "KP-28_02_pengembalian-sebelum-jatuh-tempo-tidak-ada-denda.png",
+        "label": "Pengembalian sebelum jatuh tempo: Tidak ada denda"
+      },
+      {
+        "berkas": "KP-28_03_pengembalian-tepat-di-hari-jatuh-tempo-tidak-ada-denda.png",
+        "label": "Pengembalian tepat di hari jatuh tempo: Tidak ada denda"
+      },
+      {
+        "berkas": "KP-28_04_sewa-saya-rina-zts-001-dikembalikan-denda-rp0-kuota-pulih-menjadi-1-da.png",
+        "label": "Sewa Saya Rina: ZTS-001 dikembalikan, denda Rp0, kuota pulih menjadi 1 dari 2"
+      }
+    ],
+    "durasiMs": 5628,
+    "dijalankan": "2026-10-23T00:12:23.492Z"
+  },
+  "KP-29": {
+    "kode": "KP-29",
+    "judul": "Admin memproses pengembalian 2 hari setelah jatuh tempo",
+    "fitur": "F-12",
+    "ref": "BR-13, ATB-05, TB-03, NFR-07",
+    "langkah": [
+      "Login sebagai Bima dan sewa ZTS-002; atur tanggal sewa menjadi 7 hari lalu sehingga jatuh tempo 2 hari lalu.",
+      "Login sebagai Admin, buka Sewa Aktif, tekan \"Proses kembali\" pada sewa tersebut.",
+      "Login sebagai Bima dan periksa Sewa Saya."
+    ],
+    "harapan": "Denda = 2 × tarif per hari (Rp20.000 dengan tarif Rp10.000); tercatat di sewa dan unit kembali tersedia.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-29_01_sewa-zts-002-bima-jatuh-tempo-2-hari-lalu-bertanda-terlambat.png",
+        "label": "Sewa ZTS-002 Bima jatuh tempo 2 hari lalu, bertanda Terlambat"
+      },
+      {
+        "berkas": "KP-29_02_pengembalian-diproses-dengan-denda-rp20-000-2-hari-rp10-000.png",
+        "label": "Pengembalian diproses dengan denda Rp20.000 (2 hari × Rp10.000)"
+      },
+      {
+        "berkas": "KP-29_03_sewa-saya-bima-menampilkan-denda-rp20-000.png",
+        "label": "Sewa Saya Bima menampilkan denda Rp20.000"
+      }
+    ],
+    "durasiMs": 4026,
+    "dijalankan": "2026-10-23T00:12:27.523Z"
+  },
+  "TB-03": {
+    "kode": "TB-03",
+    "judul": "Denda sistem sama dengan hitungan manual di semua skenario keterlambatan",
+    "fitur": "F-12",
+    "ref": "TB-03, PRD kriteria sukses 4",
+    "langkah": [
+      "Proses pengembalian NBS-001 dari data seed (jatuh tempo 3 hari lalu).",
+      "Buat sewa Bima yang terlambat 1 hari dan 5 hari lalu proses pengembaliannya.",
+      "Bandingkan denda di layar dengan hitungan manual: hari terlambat × Rp10.000."
+    ],
+    "harapan": "Denda 3 hari = Rp30.000 (NBS-001 seed), 1 hari = Rp10.000, 5 hari = Rp50.000.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "TB-03_01_nbs-001-seed-terlambat-3-hari-denda-rp30-000.png",
+        "label": "NBS-001 seed (terlambat 3 hari): Denda Rp30.000"
+      },
+      {
+        "berkas": "TB-03_02_terlambat-1-hari-denda-rp10-000.png",
+        "label": "Terlambat 1 hari: Denda Rp10.000"
+      },
+      {
+        "berkas": "TB-03_03_terlambat-5-hari-denda-rp50-000.png",
+        "label": "Terlambat 5 hari: Denda Rp50.000"
+      },
+      {
+        "berkas": "TB-03_04_rekap-hitungan-manual-vs-sistem.png",
+        "label": "Rekap hitungan manual vs sistem"
+      }
+    ],
+    "durasiMs": 6245,
+    "dijalankan": "2026-10-23T00:12:33.773Z"
+  },
+  "KP-30": {
+    "kode": "KP-30",
+    "judul": "Admin memproses sewa yang sudah dikembalikan",
+    "fitur": "F-12",
+    "ref": "NFR-02, INT-06, Flowchart 3",
+    "langkah": [
+      "Login sebagai Admin dan buka Sewa Aktif di dua tab.",
+      "Di tab pertama, proses pengembalian ZTS-001.",
+      "Di tab kedua (tampilan lama), tekan \"Proses kembali\" pada sewa yang sama."
+    ],
+    "harapan": "Ditolak dengan pesan \"Sewa sudah dikembalikan\"; denda dan tanggal kembali tidak berubah dan tidak diproses dua kali.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-30_01_tab-kedua-masih-menampilkan-zts-001-data-lama.png",
+        "label": "Tab kedua masih menampilkan ZTS-001 (data lama)"
+      },
+      {
+        "berkas": "KP-30_02_pemrosesan-kedua-ditolak.png",
+        "label": "Pemrosesan kedua ditolak"
+      }
+    ],
+    "durasiMs": 2181,
+    "dijalankan": "2026-10-23T00:12:35.958Z"
+  },
+  "KP-31": {
+    "kode": "KP-31",
+    "judul": "Anggota mencoba memproses pengembalian lewat URL",
+    "fitur": "F-12",
+    "ref": "BR-14, ATB-06, TB-04, NFR-01",
+    "langkah": [
+      "Login sebagai Rina (pemilik sewa ZTS-001).",
+      "Paksa permintaan pengembalian ke URL proses kembali sewa tersebut."
+    ],
+    "harapan": "Ditolak dengan halaman \"Akses ditolak\" (403); sewa tetap berstatus disewa.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-31_01_anggota-memaksa-proses-kembali-halaman-akses-ditolak-403.png",
+        "label": "Anggota memaksa proses kembali: halaman Akses ditolak (403)"
+      }
+    ],
+    "durasiMs": 1409,
+    "dijalankan": "2026-10-23T00:12:37.373Z"
+  },
+  "KP-32": {
+    "kode": "KP-32",
+    "judul": "Admin membuka riwayat sewa seorang anggota",
+    "fitur": "F-13",
+    "ref": "BR-17, TB-05",
+    "langkah": [
+      "Login sebagai Admin lalu buka menu Anggota.",
+      "Pada Bima tekan \"Lihat riwayat sewa\"."
+    ],
+    "harapan": "Semua sewa anggota tampil lengkap dengan tanggal sewa, jatuh tempo, tanggal kembali, dan denda.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-32_01_riwayat-sewa-bima-tanggal-sewa-jatuh-tempo-tanggal-kembali-dan-denda.png",
+        "label": "Riwayat sewa Bima: tanggal sewa, jatuh tempo, tanggal kembali, dan denda"
+      },
+      {
+        "berkas": "KP-32_02_riwayat-sewa-rina-dua-sewa-aktif.png",
+        "label": "Riwayat sewa Rina: dua sewa aktif"
+      }
+    ],
+    "durasiMs": 1696,
+    "dijalankan": "2026-10-23T00:12:39.073Z"
+  },
+  "KP-33": {
+    "kode": "KP-33",
+    "judul": "Admin menekan Cetak: tampilan cetak tanpa menu navigasi dan siap disimpan sebagai PDF",
+    "fitur": "F-13",
+    "ref": "BR-17, NFR-06",
+    "langkah": [
+      "Login sebagai Admin, buka riwayat sewa Bima, lalu tekan \"Print riwayat\".",
+      "Di halaman versi cetak tekan \"Print riwayat\" (memanggil dialog cetak browser).",
+      "Tampilkan halaman dalam mode cetak dan simpan sebagai PDF."
+    ],
+    "harapan": "Versi cetak tanpa menu navigasi, footer, dan tombol; tabel riwayat tampil rapi dan berhasil disimpan sebagai PDF.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KP-33_01_halaman-riwayat-versi-cetak-di-layar-sebelum-mode-cetak.png",
+        "label": "Halaman riwayat versi cetak di layar (sebelum mode cetak)"
+      },
+      {
+        "berkas": "KP-33_02_tampilan-mode-cetak-tanpa-menu-navigasi-footer-dan-tombol.png",
+        "label": "Tampilan mode cetak: tanpa menu navigasi, footer, dan tombol"
+      },
+      {
+        "berkas": "KP-33_03_pdf-riwayat-sewa-berhasil-dibuat.png",
+        "label": "PDF riwayat sewa berhasil dibuat"
+      }
+    ],
+    "durasiMs": 1777,
+    "dijalankan": "2026-10-23T00:12:40.858Z"
+  },
+  "KT-01": {
+    "kode": "KT-01",
+    "judul": "Sewa Saya kosong untuk anggota yang belum pernah menyewa",
+    "fitur": "F-10",
+    "ref": "PRD bagian 8 (kondisi kosong)",
+    "langkah": [
+      "Daftar sebagai anggota baru.",
+      "Buka Sewa Saya dan Dashboard."
+    ],
+    "harapan": "Tampil \"Kamu belum pernah menyewa unit.\" dengan tautan ke Daftar Unit.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KT-01_01_dashboard-anggota-baru-belum-ada-sewa.png",
+        "label": "Dashboard anggota baru: belum ada sewa"
+      },
+      {
+        "berkas": "KT-01_02_sewa-saya-kosong-dengan-tautan-ke-daftar-unit.png",
+        "label": "Sewa Saya kosong dengan tautan ke Daftar Unit"
+      }
+    ],
+    "durasiMs": 1559,
+    "dijalankan": "2026-10-23T00:12:42.440Z"
+  },
+  "KT-02": {
+    "kode": "KT-02",
+    "judul": "Sewa Aktif kosong setelah semua unit dikembalikan",
+    "fitur": "F-11",
+    "ref": "PRD bagian 8 (kondisi kosong)",
+    "langkah": [
+      "Login sebagai Admin dan proses pengembalian seluruh sewa aktif (ZTS-001 dan NBS-001).",
+      "Buka Sewa Aktif dan Dashboard Admin."
+    ],
+    "harapan": "Tampil \"Tidak ada unit yang sedang disewa.\"",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KT-02_01_sewa-aktif-kosong-setelah-semua-dikembalikan.png",
+        "label": "Sewa Aktif kosong setelah semua dikembalikan"
+      }
+    ],
+    "durasiMs": 2096,
+    "dijalankan": "2026-10-23T00:12:44.541Z"
+  },
+  "KT-03": {
+    "kode": "KT-03",
+    "judul": "Riwayat anggota kosong: tombol Cetak nonaktif",
+    "fitur": "F-13",
+    "ref": "PRD bagian 8 (kondisi kosong)",
+    "langkah": [
+      "Daftar anggota baru lalu keluar.",
+      "Login sebagai Admin dan buka riwayat sewa anggota baru tersebut."
+    ],
+    "harapan": "Tampil \"Anggota ini belum pernah menyewa.\"; tombol Cetak nonaktif.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KT-03_01_riwayat-anggota-baru-kosong-dengan-tombol-cetak-nonaktif.png",
+        "label": "Riwayat anggota baru kosong dengan tombol cetak nonaktif"
+      }
+    ],
+    "durasiMs": 2079,
+    "dijalankan": "2026-10-23T00:12:46.624Z"
+  },
+  "KT-04": {
+    "kode": "KT-04",
+    "judul": "Daftar unit kosong",
+    "fitur": "F-04",
+    "ref": "PRD bagian 8 (kondisi kosong)",
+    "langkah": [
+      "Kosongkan seluruh unit (kondisi uji).",
+      "Login sebagai Anggota lalu sebagai Admin dan buka Daftar Unit."
+    ],
+    "harapan": "Tampil \"Belum ada unit.\"; Admin melihat tombol/tautan untuk menambah unit.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KT-04_01_daftar-unit-kosong-untuk-anggota.png",
+        "label": "Daftar unit kosong untuk Anggota"
+      },
+      {
+        "berkas": "KT-04_02_daftar-unit-kosong-untuk-admin.png",
+        "label": "Daftar unit kosong untuk Admin"
+      }
+    ],
+    "durasiMs": 2277,
+    "dijalankan": "2026-10-23T00:12:48.904Z"
+  },
+  "KT-05": {
+    "kode": "KT-05",
+    "judul": "Halaman 404 untuk data yang tidak ada",
+    "fitur": "PRD halaman 14",
+    "ref": "PRD bagian 8 (error tidak ditemukan)",
+    "langkah": [
+      "Login sebagai Anggota lalu buka /units/99999.",
+      "Login sebagai Admin lalu buka riwayat anggota dengan ID yang tidak ada."
+    ],
+    "harapan": "Tampil halaman 404 \"Data tidak ditemukan\" dengan tautan kembali.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KT-05_01_detail-unit-yang-tidak-ada-halaman-404.png",
+        "label": "Detail unit yang tidak ada: halaman 404"
+      },
+      {
+        "berkas": "KT-05_02_riwayat-anggota-yang-tidak-ada-halaman-404.png",
+        "label": "Riwayat anggota yang tidak ada: halaman 404"
+      }
+    ],
+    "durasiMs": 2227,
+    "dijalankan": "2026-10-23T00:12:51.137Z"
+  },
+  "KT-06": {
+    "kode": "KT-06",
+    "judul": "Tombol kirim nonaktif dan berlabel \"Memproses...\" sehingga klik ganda tidak membuat sewa ganda",
+    "fitur": "S-01",
+    "ref": "PRD bagian 8 (proses), NFR-02",
+    "langkah": [
+      "Login sebagai Bima dan buka detail unit ZTS-002.",
+      "Perlambat respons server, lalu klik ganda \"Sewa kapal\".",
+      "Periksa label tombol dan jumlah sewa yang tercatat."
+    ],
+    "harapan": "Tombol berubah menjadi \"Memproses...\" dan nonaktif; hanya satu sewa yang tercatat.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "KT-06_01_tombol-berlabel-memproses-dan-nonaktif-setelah-ditekan.png",
+        "label": "Tombol berlabel Memproses... dan nonaktif setelah ditekan"
+      },
+      {
+        "berkas": "KT-06_02_setelah-respons-datang-satu-sewa-tercatat.png",
+        "label": "Setelah respons datang: satu sewa tercatat"
+      }
+    ],
+    "durasiMs": 1579,
+    "dijalankan": "2026-10-23T00:12:52.722Z"
+  },
+  "S-02": {
+    "kode": "S-02",
+    "judul": "Dialog konfirmasi sebelum menghapus",
+    "fitur": "S-02",
+    "ref": "BR-09 s.d. BR-11",
+    "langkah": [
+      "Login sebagai Admin dan buka \"Ubah data unit\" pada ZTS-002.",
+      "Tekan \"Hapus unit\" lalu batalkan dialog konfirmasi.",
+      "Tekan \"Hapus unit\" lagi dan setujui dialog."
+    ],
+    "harapan": "Dialog \"Hapus unit ZTS-002?\" muncul; saat dibatalkan unit tetap ada, saat disetujui unit terhapus.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "S-02_01_dialog-hapus-unit-zts-002-dibatalkan-unit-tetap-ada.png",
+        "label": "Dialog \"Hapus unit ZTS-002?\" dibatalkan: unit tetap ada"
+      },
+      {
+        "berkas": "S-02_02_dialog-disetujui-unit-terhapus.png",
+        "label": "Dialog disetujui: unit terhapus"
+      },
+      {
+        "berkas": "S-02_03_teks-dialog-konfirmasi-bawaan-browser.png",
+        "label": "Teks dialog konfirmasi bawaan browser"
+      }
+    ],
+    "durasiMs": 2080,
+    "dijalankan": "2026-10-23T00:12:54.807Z"
+  },
+  "S-03": {
+    "kode": "S-03",
+    "judul": "Paginasi daftar",
+    "fitur": "S-03",
+    "ref": "PRD bagian 3",
+    "langkah": [
+      "Tambahkan 20 unit uji (kondisi uji) sehingga total 30 unit.",
+      "Login sebagai Anggota dan buka Daftar Unit, lalu pindah ke halaman 2."
+    ],
+    "harapan": "Daftar dipecah per halaman (PRD: 10 baris per halaman) dengan navigasi halaman.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "S-03_01_daftar-unit-halaman-1-dengan-navigasi-paginasi.png",
+        "label": "Daftar unit halaman 1 dengan navigasi paginasi"
+      },
+      {
+        "berkas": "S-03_02_daftar-unit-halaman-2.png",
+        "label": "Daftar unit halaman 2"
+      }
+    ],
+    "durasiMs": 1707,
+    "dijalankan": "2026-10-23T00:12:56.525Z"
+  },
+  "VAL-01": {
+    "kode": "VAL-01",
+    "judul": "Validasi form Registrasi",
+    "fitur": "F-14, F-01",
+    "ref": "PRD bagian 5 (Registrasi), NFR-03",
+    "langkah": [
+      "Buka /register dan tekan Daftar dengan semua field kosong (validasi browser aktif).",
+      "Nonaktifkan validasi browser lalu kirim kosong agar validasi server yang teruji.",
+      "Kirim data tidak valid: nama 101 karakter, email salah format, password 3 karakter, telepon non-angka.",
+      "Kirim dengan konfirmasi password berbeda."
+    ],
+    "harapan": "Setiap field wajib ditolak dengan pesan Bahasa Indonesia berwarna merah di bawah field; isian lain tetap terisi; tidak ada akun baru.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-01_01_form-kosong-ditahan-oleh-validasi-bawaan-browser.png",
+        "label": "Form kosong ditahan oleh validasi bawaan browser"
+      },
+      {
+        "berkas": "VAL-01_02_validasi-server-semua-field-wajib-menampilkan-pesan-di-bawah-field.png",
+        "label": "Validasi server: semua field wajib menampilkan pesan di bawah field"
+      },
+      {
+        "berkas": "VAL-01_03_data-tidak-valid-pesan-per-field-alamat-tetap-terisi.png",
+        "label": "Data tidak valid: pesan per field, alamat tetap terisi"
+      },
+      {
+        "berkas": "VAL-01_04_konfirmasi-password-berbeda-ditolak-isian-lain-tetap-terisi.png",
+        "label": "Konfirmasi password berbeda ditolak, isian lain tetap terisi"
+      }
+    ],
+    "durasiMs": 2363,
+    "dijalankan": "2026-10-23T00:12:58.907Z"
+  },
+  "VAL-02": {
+    "kode": "VAL-02",
+    "judul": "Validasi form Login",
+    "fitur": "F-14, F-02",
+    "ref": "PRD bagian 5 (Login)",
+    "langkah": [
+      "Buka /login dan kirim form kosong tanpa validasi browser.",
+      "Kirim dengan email berformat salah."
+    ],
+    "harapan": "Email dan password wajib diisi; format email dicek; pesan tampil di bawah field.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-02_01_login-kosong-email-dan-password-wajib-diisi.png",
+        "label": "Login kosong: email dan password wajib diisi"
+      },
+      {
+        "berkas": "VAL-02_02_email-berformat-salah-ditolak.png",
+        "label": "Email berformat salah ditolak"
+      }
+    ],
+    "durasiMs": 1461,
+    "dijalankan": "2026-10-23T00:13:00.373Z"
+  },
+  "VAL-03": {
+    "kode": "VAL-03",
+    "judul": "Validasi form Profil",
+    "fitur": "F-14, F-03",
+    "ref": "PRD bagian 5 (Profil)",
+    "langkah": [
+      "Login sebagai Rina dan buka Profil.",
+      "Kosongkan semua field lalu simpan (tanpa validasi browser).",
+      "Isi email milik Bima dan telepon non-angka lalu simpan."
+    ],
+    "harapan": "Field wajib ditolak, email yang dipakai akun lain ditolak, isian lain tetap terisi, dan profil Rina tidak berubah.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-03_01_profil-dikosongkan-semua-field-wajib-menampilkan-pesan.png",
+        "label": "Profil dikosongkan: semua field wajib menampilkan pesan"
+      },
+      {
+        "berkas": "VAL-03_02_email-milik-akun-lain-dan-telepon-non-angka-ditolak.png",
+        "label": "Email milik akun lain dan telepon non-angka ditolak"
+      }
+    ],
+    "durasiMs": 2310,
+    "dijalankan": "2026-10-23T00:13:02.688Z"
+  },
+  "VAL-04": {
+    "kode": "VAL-04",
+    "judul": "Validasi form Unit",
+    "fitur": "F-14, F-06",
+    "ref": "PRD bagian 5 (Unit)",
+    "langkah": [
+      "Login sebagai Admin dan buka Kelola Unit.",
+      "Kirim form tambah unit kosong (tanpa validasi browser).",
+      "Kirim kode berisi spasi/simbol, kode 21 karakter, dan deskripsi 1001 karakter."
+    ],
+    "harapan": "Kode, nama, dan kategori wajib; kode hanya huruf/angka/tanda hubung/garis bawah dan maksimal 20; deskripsi maksimal 1000; tidak ada unit tersimpan.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-04_01_form-unit-kosong-kode-nama-dan-kategori-wajib.png",
+        "label": "Form unit kosong: kode, nama, dan kategori wajib"
+      },
+      {
+        "berkas": "VAL-04_02_kode-berisi-simbol-dan-deskripsi-terlalu-panjang-ditolak.png",
+        "label": "Kode berisi simbol dan deskripsi terlalu panjang ditolak"
+      },
+      {
+        "berkas": "VAL-04_03_kode-21-karakter-ditolak.png",
+        "label": "Kode 21 karakter ditolak"
+      }
+    ],
+    "durasiMs": 2878,
+    "dijalankan": "2026-10-23T00:13:05.572Z"
+  },
+  "VAL-05": {
+    "kode": "VAL-05",
+    "judul": "Validasi form Kategori",
+    "fitur": "F-14, F-07",
+    "ref": "PRD bagian 5 (Kategori)",
+    "langkah": [
+      "Login sebagai Admin dan buka Kategori.",
+      "Kirim form kosong, lalu nama 51 karakter dan deskripsi 501 karakter."
+    ],
+    "harapan": "Nama wajib, maksimal 50 karakter; deskripsi maksimal 500 karakter; tidak ada kategori tersimpan.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-05_01_form-kategori-kosong-nama-wajib-diisi.png",
+        "label": "Form kategori kosong: nama wajib diisi"
+      },
+      {
+        "berkas": "VAL-05_02_nama-51-karakter-dan-deskripsi-501-karakter-ditolak.png",
+        "label": "Nama 51 karakter dan deskripsi 501 karakter ditolak"
+      }
+    ],
+    "durasiMs": 2110,
+    "dijalankan": "2026-10-23T00:13:07.688Z"
+  },
+  "VAL-06": {
+    "kode": "VAL-06",
+    "judul": "Validasi form Anggota (Admin)",
+    "fitur": "F-14, F-08",
+    "ref": "PRD bagian 5 (Anggota Admin), NFR-03",
+    "langkah": [
+      "Login sebagai Admin dan buka Anggota.",
+      "Kirim form tambah anggota kosong (tanpa validasi browser).",
+      "Isi sebagian data dengan password 7 karakter dan email milik anggota lain, lalu kirim.",
+      "Ubah email Bima menjadi email Rina dan simpan."
+    ],
+    "harapan": "Semua field wajib ditolak dengan pesan merah; password minimal 8; email unik; isian lain tidak hilang saat gagal simpan; tidak ada anggota baru.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-06_01_form-anggota-kosong-seluruh-field-wajib-ditolak.png",
+        "label": "Form anggota kosong: seluruh field wajib ditolak"
+      },
+      {
+        "berkas": "VAL-06_02_email-dipakai-akun-lain-dan-password-7-karakter-ditolak.png",
+        "label": "Email dipakai akun lain dan password 7 karakter ditolak"
+      }
+    ],
+    "durasiMs": 2247,
+    "dijalankan": "2026-10-23T00:13:09.939Z"
+  },
+  "VAL-06b": {
+    "kode": "VAL-06b",
+    "judul": "Validasi ubah anggota: email milik anggota lain ditolak",
+    "fitur": "F-14, F-08",
+    "ref": "KP-20, PRD bagian 5 (Anggota Admin)",
+    "langkah": [
+      "Login sebagai Admin dan buka Anggota.",
+      "Pada Bima, ubah email menjadi email Rina lalu simpan."
+    ],
+    "harapan": "Ditolak dengan pesan \"Email sudah terdaftar\"; email Bima tidak berubah.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-06b_01_email-milik-rina-ditolak-saat-mengubah-bima.png",
+        "label": "Email milik Rina ditolak saat mengubah Bima"
+      }
+    ],
+    "durasiMs": 1727,
+    "dijalankan": "2026-10-23T00:13:11.674Z"
+  },
+  "VAL-07": {
+    "kode": "VAL-07",
+    "judul": "Validasi kata kunci pencarian maksimal 100 karakter",
+    "fitur": "F-14, F-05",
+    "ref": "PRD bagian 5 (Pencarian)",
+    "langkah": [
+      "Login sebagai Anggota.",
+      "Buka /units?q= dengan kata kunci 101 karakter (melewati batas input di browser)."
+    ],
+    "harapan": "Server menolak dengan pesan \"Kata kunci maksimal 100 karakter\".",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "VAL-07_01_pencarian-dengan-101-karakter.png",
+        "label": "Pencarian dengan 101 karakter"
+      }
+    ],
+    "durasiMs": 1278,
+    "dijalankan": "2026-10-23T00:13:12.957Z"
+  },
+  "NFR-01": {
+    "kode": "NFR-01",
+    "judul": "Password disimpan sebagai hash; halaman dilindungi login dan peran di server",
+    "fitur": "NFR-01",
+    "ref": "BR-01, TB-04",
+    "langkah": [
+      "Periksa kolom password semua akun di tabel users.",
+      "Lihat hasil KP-05, KP-06, dan KP-31 untuk akses per peran."
+    ],
+    "harapan": "Tidak ada password teks biasa; semua berupa hash bcrypt.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "NFR-01_01_password-tersimpan-sebagai-hash.png",
+        "label": "Password tersimpan sebagai hash"
+      }
+    ],
+    "durasiMs": 566,
+    "dijalankan": "2026-10-23T00:13:13.534Z"
+  },
+  "NFR-02": {
+    "kode": "NFR-02",
+    "judul": "Permintaan sewa beruntun tidak bisa melewati kuota 2 unit",
+    "fitur": "NFR-02",
+    "ref": "TB-02, INT-04, INT-05",
+    "langkah": [
+      "Login sebagai Bima (0 sewa aktif).",
+      "Kirim 4 permintaan sewa ke 4 unit tersedia sekaligus.",
+      "Periksa jumlah sewa aktif Bima."
+    ],
+    "harapan": "Tepat 2 sewa berhasil; sisanya ditolak; tidak pernah lebih dari 2 sewa aktif.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "NFR-02_01_setelah-4-permintaan-sewa-beruntun-kuota-bima-tepat-penuh-2-unit.png",
+        "label": "Setelah 4 permintaan sewa beruntun: kuota Bima tepat penuh (2 unit)"
+      },
+      {
+        "berkas": "NFR-02_02_rekap-permintaan-sewa-beruntun.png",
+        "label": "Rekap permintaan sewa beruntun"
+      }
+    ],
+    "durasiMs": 2116,
+    "dijalankan": "2026-10-23T00:13:15.656Z"
+  },
+  "INT-01": {
+    "kode": "INT-01",
+    "judul": "Kode unit dan email unik di level database, termasuk bekas data terhapus",
+    "fitur": "INT-01",
+    "ref": "ATB-07, ATB-11, TB-01",
+    "langkah": [
+      "Coba menyisipkan langsung ke database kode unit ganda dan email ganda.",
+      "Login sebagai Admin, hapus unit ZTS-002, lalu tambah unit baru berkode ZTS-002."
+    ],
+    "harapan": "Database menolak duplikat (UNIQUE); kode bekas unit terhapus juga tidak bisa dipakai ulang.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "INT-01_01_kode-zts-002-milik-unit-yang-sudah-dihapus-tetap-tidak-bisa-dipakai-ul.png",
+        "label": "Kode ZTS-002 milik unit yang sudah dihapus tetap tidak bisa dipakai ulang"
+      },
+      {
+        "berkas": "INT-01_02_penolakan-duplikat-oleh-database.png",
+        "label": "Penolakan duplikat oleh database"
+      }
+    ],
+    "durasiMs": 2281,
+    "dijalankan": "2026-10-23T00:13:17.944Z"
+  },
+  "INT-02": {
+    "kode": "INT-02",
+    "judul": "Satu akun satu profil dan pasangan unit-kategori tidak ganda",
+    "fitur": "INT-02, INT-03",
+    "ref": "BR-04, BR-06",
+    "langkah": [
+      "Coba menyisipkan profil kedua untuk akun yang sama.",
+      "Coba menyisipkan pasangan unit-kategori yang sudah ada."
+    ],
+    "harapan": "Database menolak keduanya dengan error UNIQUE.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "INT-02_01_penolakan-duplikat-oleh-database.png",
+        "label": "Penolakan duplikat oleh database"
+      }
+    ],
+    "durasiMs": 675,
+    "dijalankan": "2026-10-23T00:13:18.627Z"
+  },
+  "INT-03": {
+    "kode": "INT-03",
+    "judul": "Foreign key rentals bersifat restrict: akun/unit dengan sewa tidak bisa dihapus permanen",
+    "fitur": "INT-07, INT-08",
+    "ref": "ATB-08, TB-05",
+    "langkah": [
+      "Coba menghapus permanen akun Rina dan unit ZTS-001 yang punya sewa langsung dari database."
+    ],
+    "harapan": "Database menolak dengan FOREIGN KEY constraint failed sehingga riwayat sewa tidak bisa yatim.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "INT-03_01_penghapusan-permanen-ditolak-database.png",
+        "label": "Penghapusan permanen ditolak database"
+      }
+    ],
+    "durasiMs": 601,
+    "dijalankan": "2026-10-23T00:13:19.235Z"
+  },
+  "NFR-04": {
+    "kode": "NFR-04",
+    "judul": "Tampilan dapat dipakai di layar HP (lebar 390 px) tanpa scroll horizontal halaman",
+    "fitur": "NFR-04, S-04",
+    "ref": "PRD bagian 3",
+    "langkah": [
+      "Atur lebar layar 390 × 844 px.",
+      "Buka Login, Dashboard, Daftar Unit, Detail Unit, Sewa Saya sebagai Anggota, lalu Kelola Unit dan Sewa Aktif sebagai Admin."
+    ],
+    "harapan": "Setiap halaman tampil utuh tanpa melebar melewati layar.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "NFR-04_01_hp-login.png",
+        "label": "HP: Login"
+      },
+      {
+        "berkas": "NFR-04_02_hp-dashboard-anggota.png",
+        "label": "HP: Dashboard Anggota"
+      },
+      {
+        "berkas": "NFR-04_03_hp-daftar-unit.png",
+        "label": "HP: Daftar Unit"
+      },
+      {
+        "berkas": "NFR-04_04_hp-detail-unit.png",
+        "label": "HP: Detail Unit"
+      },
+      {
+        "berkas": "NFR-04_05_hp-sewa-saya.png",
+        "label": "HP: Sewa Saya"
+      },
+      {
+        "berkas": "NFR-04_06_hp-kelola-unit-admin.png",
+        "label": "HP: Kelola Unit (Admin)"
+      },
+      {
+        "berkas": "NFR-04_07_hp-sewa-aktif-admin.png",
+        "label": "HP: Sewa Aktif (Admin)"
+      }
+    ],
+    "durasiMs": 2924,
+    "dijalankan": "2026-10-23T00:13:22.163Z"
+  },
+  "NFR-07": {
+    "kode": "NFR-07",
+    "judul": "Tarif denda dan durasi sewa dibaca dari konfigurasi, bukan ditulis di kode",
+    "fitur": "NFR-07",
+    "ref": "INT-09, BR-13",
+    "langkah": [
+      "Baca nilai tarif dan durasi dari aplikasi tanpa pengaturan khusus.",
+      "Ubah hanya variabel environment RENTAL_DAILY_FINE dan RENTAL_DURATION_DAYS, lalu baca ulang."
+    ],
+    "harapan": "Nilai bawaan 10000 dan 5; setelah env diubah menjadi 15000 dan 7, aplikasi memakai nilai baru tanpa mengubah kode.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "NFR-07_01_tarif-dan-durasi-dari-konfigurasi.png",
+        "label": "Tarif dan durasi dari konfigurasi"
+      }
+    ],
+    "durasiMs": 1217,
+    "dijalankan": "2026-10-23T00:13:23.385Z"
+  },
+  "NFR-08": {
+    "kode": "NFR-08",
+    "judul": "migrate:fresh --seed membangun ulang database dengan data seed sesuai PRD",
+    "fitur": "NFR-08, F-15",
+    "ref": "BR-19, BR-20, PRD bagian 9",
+    "langkah": [
+      "Jalankan php artisan migrate:fresh --seed.",
+      "Periksa jumlah dan isi data: 3 akun, 6 kategori, 10 unit, 3 sewa contoh dengan tanggal relatif."
+    ],
+    "harapan": "Perintah selesai tanpa error dan data seed sama dengan tabel di PRD bagian 9.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "NFR-08_01_hasil-migrate-fresh-seed.png",
+        "label": "Hasil migrate:fresh --seed"
+      }
+    ],
+    "durasiMs": 1013,
+    "dijalankan": "2026-10-23T00:13:24.404Z"
+  },
+  "F-16": {
+    "kode": "F-16",
+    "judul": "README memuat nama kelompok, nama tim, nama project, fitur, gambar skema database, dan video demo",
+    "fitur": "F-16",
+    "ref": "BR-21, TB-06",
+    "langkah": [
+      "Buka README.md di root repositori.",
+      "Periksa keenam unsur wajib pada BR-21."
+    ],
+    "harapan": "README memuat nama kelompok, nama tim, nama project, daftar fitur, gambar skema database, dan tautan video demo.",
+    "status": "Lulus",
+    "deviasi": [],
+    "kegagalan": "",
+    "bukti": [
+      {
+        "berkas": "F-16_01_pemeriksaan-isi-readme-md.png",
+        "label": "Pemeriksaan isi README.md"
+      }
+    ],
+    "durasiMs": 594,
+    "dijalankan": "2026-10-23T00:13:25.003Z"
+  }
+}

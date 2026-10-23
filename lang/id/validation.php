@@ -29,6 +29,11 @@ return [
     'required' => ':attribute wajib diisi.',
     'string' => ':attribute harus berupa teks.',
     'unique' => ':attribute sudah digunakan.',
+    'custom' => [
+        // PRD KP-02 dan KP-17. unique pada kolom "email" hanya dipakai untuk akun, pada "name" hanya untuk kategori.
+        'email' => ['unique' => 'Email sudah terdaftar.'],
+        'name' => ['unique' => 'Nama kategori sudah dipakai.'],
+    ],
     'attributes' => [
         'name' => 'nama',
         'email' => 'email',

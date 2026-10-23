@@ -4,7 +4,7 @@ namespace App\Domain\Exceptions;
 
 class UnitNotAvailableException extends DomainException
 {
-    public function __construct(string $message = 'Unit tidak tersedia untuk disewa')
+    public function __construct(string $message = 'Unit sedang disewa')
     {
         parent::__construct($message);
     }

@@ -28,7 +28,7 @@ class UnitValidationLocalizationTest extends TestCase
         $this->actingAs($admin)->post(route('admin.units.store'), [])->assertSessionHasErrors([
             'code' => 'kode wajib diisi.',
             'name' => 'nama wajib diisi.',
-            'category_ids' => 'kategori wajib diisi.',
+            'category_ids' => 'Pilih minimal 1 kategori.',
         ]);
     }
 }

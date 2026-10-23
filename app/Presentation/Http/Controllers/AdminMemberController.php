@@ -56,6 +56,9 @@ class AdminMemberController extends Controller
 
     public function update(Request $request, int $id, UserRepositoryInterface $userRepo)
     {
+        $user = $userRepo->findById($id);
+        $this->abortUnlessMember($user);
+
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:255|unique:users,email,'.$id,
@@ -64,7 +67,6 @@ class AdminMemberController extends Controller
             'password' => 'nullable|min:8|confirmed',
         ]);
 
-        $user = $userRepo->findById($id);
         if (! $user) {
             return back()->with('error', 'Anggota tidak ditemukan');
         }
@@ -99,6 +101,7 @@ class AdminMemberController extends Controller
     public function destroy(int $id, UserRepositoryInterface $userRepo)
     {
         $user = $userRepo->findById($id);
+        $this->abortUnlessMember($user);
         if (! $user) {
             return back()->with('error', 'Anggota tidak ditemukan');
         }
@@ -106,7 +109,7 @@ class AdminMemberController extends Controller
         // Check active rentals
         $rentalRepo = app(RentalRepositoryInterface::class);
         if ($rentalRepo->countActiveByUser($id) > 0) {
-            return back()->with('error', 'Masih punya sewa aktif, tidak bisa dihapus');
+            return back()->with('error', 'Anggota masih punya sewa aktif, tidak bisa dihapus');
         }
 
         $userRepo->delete($id);
@@ -114,10 +117,18 @@ class AdminMemberController extends Controller
         return back()->with('success', 'Anggota berhasil dihapus');
     }
 
+    /** Endpoint ini khusus anggota: akun berperan lain (mis. admin) dianggap tidak ada. */
+    private function abortUnlessMember(?User $user): void
+    {
+        if ($user && $user->role !== UserRole::MEMBER) {
+            abort(404);
+        }
+    }
+
     public function rentals(int $id, RentalRepositoryInterface $rentalRepo, UserRepositoryInterface $userRepo): View
     {
         $member = EloquentUserRepository::class;
-        $member = UserEloquent::withTrashed()->with('profile')->find($id);
+        $member = UserEloquent::withTrashed()->with('profile')->where('role', UserRole::MEMBER->value)->find($id);
         if (! $member) {
             abort(404);
         }
@@ -138,7 +149,7 @@ class AdminMemberController extends Controller
 
     public function printRentals(int $id, RentalRepositoryInterface $rentalRepo): View
     {
-        $member = UserEloquent::withTrashed()->findOrFail($id);
+        $member = UserEloquent::withTrashed()->where('role', UserRole::MEMBER->value)->findOrFail($id);
         $rentals = $rentalRepo->getAllByUser($id);
 
         return view('admin.members.rentals-print', compact('member', 'rentals'));

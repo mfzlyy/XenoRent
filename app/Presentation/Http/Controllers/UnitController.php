@@ -8,13 +8,28 @@ use App\Application\UseCases\Rental\CreateRental;
 use App\Domain\Exceptions\DomainException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UnitController extends Controller
 {
+    private const PER_PAGE = 10;
+
     public function index(UnitRepositoryInterface $unitRepo)
     {
-        $search = request('q', '');
-        $units = $unitRepo->getAll(12, $search);
+        $validator = Validator::make(request()->all(), [
+            'q' => 'nullable|string|max:100',
+        ], [
+            'q.max' => 'Kata kunci maksimal 100 karakter.',
+        ]);
+
+        if ($validator->fails()) {
+            // Tampilkan seluruh daftar beserta pesan error, bukan mengalihkan ke halaman lain.
+            $units = $unitRepo->getAll(self::PER_PAGE);
+
+            return view('units.index', compact('units'))->withErrors($validator);
+        }
+
+        $units = $unitRepo->getAll(self::PER_PAGE, (string) request('q', ''));
 
         return view('units.index', compact('units'));
     }

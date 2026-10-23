@@ -28,7 +28,7 @@ class AdminCategoryController extends Controller
 
         $categoryData = new CreateCategoryData(
             name: $data['name'],
-            description: $data['description'],
+            description: $data['description'] ?? null,
         );
 
         $createCategory->execute($categoryData);
@@ -45,7 +45,7 @@ class AdminCategoryController extends Controller
 
         $categoryData = new UpdateCategoryData(
             name: $data['name'],
-            description: $data['description'],
+            description: $data['description'] ?? null,
         );
 
         $updateCategory->execute($id, $categoryData);

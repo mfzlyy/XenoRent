@@ -27,6 +27,6 @@ class IndonesianNotificationsTest extends TestCase
         CategoryEloquent::create(['name' => 'Kargo']);
 
         $this->actingAs($admin)->post(route('admin.categories.store'), ['name' => 'Kargo'])
-            ->assertSessionHasErrors(['name' => 'nama sudah digunakan.']);
+            ->assertSessionHasErrors(['name' => 'Nama kategori sudah dipakai.']);
     }
 }

@@ -77,6 +77,8 @@ class AdminUnitController extends Controller
             'array' => ':attribute harus berupa daftar.',
             'min' => ':attribute harus memiliki minimal :min pilihan.',
             'exists' => ':attribute yang dipilih tidak valid.',
+            'category_ids.required' => 'Pilih minimal 1 kategori.',
+            'category_ids.min' => 'Pilih minimal 1 kategori.',
             'code.unique' => 'Kode unit sudah dipakai',
         ];
     }

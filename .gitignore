@@ -25,3 +25,6 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/test-results
+/docs/uat/playwright-report
+/database/uat.sqlite

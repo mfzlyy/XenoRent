@@ -28,7 +28,7 @@ class RentalPolicyService
     public function assertCanReturn(Rental $rental): void
     {
         if ($rental->status !== RentalStatus::ACTIVE) {
-            throw new DomainException('Sewa ini sudah dikembalikan atau tidak valid');
+            throw new DomainException('Sewa sudah dikembalikan');
         }
     }
 
