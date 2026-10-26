@@ -66,7 +66,7 @@ uat('KT-03', {
     await login(page, AKUN.admin);
     await page.goto(`/admin/members/${idUser('nova.kosong@xenorent.test')}/rentals`);
     await expect(page.getByRole('heading', { name: 'Anggota ini belum pernah menyewa.' })).toBeVisible();
-    const tombol = page.getByRole('button', { name: 'Print tidak tersedia' });
+    const tombol = page.getByRole('button', { name: 'Print riwayat' });
     await expect(tombol).toBeDisabled();
     await bukti('Riwayat anggota baru kosong dengan tombol cetak nonaktif');
 });

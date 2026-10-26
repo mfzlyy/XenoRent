@@ -2,6 +2,9 @@
     <table class="data-table">
         <thead>
             <tr>
+                @if (!empty($showMember))
+                    <th>Anggota</th>
+                @endif
                 <th>Kapal / kode</th>
                 <th>Tanggal sewa</th>
                 <th>Jatuh tempo</th>
@@ -13,6 +16,12 @@
         <tbody>
             @foreach($rentals as $rental)
                 <tr>
+                    @if (!empty($showMember))
+                        <td>
+                            <strong>{{ $rental->user?->name ?? 'Anggota tidak ditemukan' }}</strong>
+                            <small class="table-secondary">{{ $rental->user?->email }}</small>
+                        </td>
+                    @endif
                     <td>
                         @if($rental->unit)
                             <strong>{{ $rental->unit->name }}</strong>

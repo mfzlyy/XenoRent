@@ -12,7 +12,9 @@ use App\Domain\Enums\UserRole;
 use App\Domain\ValueObjects\Email;
 use App\Infrastructure\Eloquent\RentalEloquent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 
 class EloquentRentalRepository implements RentalRepositoryInterface
 {
@@ -23,20 +25,59 @@ class EloquentRentalRepository implements RentalRepositoryInterface
         return $model ? $this->toEntity($model) : null;
     }
 
-    public function getByUser(int $userId, int $perPage = 15): LengthAwarePaginator
+    public function getByUser(int $userId, int $perPage = 15, ?string $month = null): LengthAwarePaginator
     {
-        return RentalEloquent::with(['user' => fn ($query) => $query->withTrashed(), 'unit'])
-            ->where('user_id', $userId)
-            ->latest('rented_at')
-            ->paginate($perPage);
+        return $this->userRentalsQuery($userId, $month)->paginate($perPage);
     }
 
-    public function getAllByUser(int $userId): Collection
+    public function getAllByUser(int $userId, ?string $month = null): Collection
     {
-        return RentalEloquent::with(['user' => fn ($query) => $query->withTrashed(), 'unit'])
-            ->where('user_id', $userId)
-            ->latest('rented_at')
-            ->get();
+        return $this->userRentalsQuery($userId, $month)->get();
+    }
+
+    public function getHistory(int $perPage = 15, ?string $month = null): LengthAwarePaginator
+    {
+        return $this->userRentalsQuery(null, $month)->paginate($perPage);
+    }
+
+    public function getAllHistory(?string $month = null): Collection
+    {
+        return $this->userRentalsQuery(null, $month)->get();
+    }
+
+    public function getRentedMonths(?int $userId = null): array
+    {
+        return RentalEloquent::query()
+            ->when($userId !== null, fn ($q) => $q->where('user_id', $userId))
+            ->pluck('rented_at')
+            ->map(fn ($date) => Carbon::parse($date)->format('Y-m'))
+            ->unique()
+            ->sortDesc()
+            ->values()
+            ->all();
+    }
+
+    private function userRentalsQuery(?int $userId = null, ?string $month = null): Builder
+    {
+        $query = RentalEloquent::with(['user' => fn ($q) => $q->withTrashed(), 'unit'])
+            ->latest('rented_at');
+
+        if ($userId !== null) {
+            $query->where('user_id', $userId);
+        }
+
+        if ($month !== null) {
+            $isYear = strlen($month) === 4;
+            $start = $isYear
+                ? Carbon::createFromFormat('!Y', $month)->startOfYear()
+                : Carbon::createFromFormat('!Y-m', $month)->startOfMonth();
+            $end = $isYear ? $start->copy()->addYear() : $start->copy()->addMonth();
+
+            $query->where('rented_at', '>=', $start->toDateString())
+                ->where('rented_at', '<', $end->toDateString());
+        }
+
+        return $query;
     }
 
     public function getActive(int $perPage = 15): LengthAwarePaginator

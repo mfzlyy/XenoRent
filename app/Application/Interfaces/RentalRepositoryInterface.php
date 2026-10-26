@@ -10,9 +10,15 @@ interface RentalRepositoryInterface
 {
     public function findById(int $id): ?Rental;
 
-    public function getByUser(int $userId, int $perPage = 15): LengthAwarePaginator;
+    public function getByUser(int $userId, int $perPage = 15, ?string $month = null): LengthAwarePaginator;
 
-    public function getAllByUser(int $userId): Collection;
+    public function getAllByUser(int $userId, ?string $month = null): Collection;
+
+    public function getHistory(int $perPage = 15, ?string $month = null): LengthAwarePaginator;
+
+    public function getAllHistory(?string $month = null): Collection;
+
+    public function getRentedMonths(?int $userId = null): array;
 
     public function getActive(int $perPage = 15): LengthAwarePaginator;
 

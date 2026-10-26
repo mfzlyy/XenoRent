@@ -6,6 +6,8 @@
         <p class="eyebrow">ADMIN / ARSIP ANGGOTA</p>
         <h1>Riwayat sewa</h1>
         <p>{{ $member->name }} · {{ $member->email }}</p>
+        <p>Periode: {{ $month ? (strlen($month) === 4 ? 'Tahun '.$month : \Illuminate\Support\Carbon::createFromFormat('!Y-m', $month)->translatedFormat('F Y')) : 'Semua bulan' }}</p>
+        @include('admin.members.partials.period-range', ['rows' => $rentals])
     </div>
     <button class="button button-dark" type="button" data-print>Print riwayat</button>
 </section>
