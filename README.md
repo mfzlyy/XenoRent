@@ -9,7 +9,7 @@ XenoRent adalah aplikasi web untuk menyewa kapal alien dari sebuah hanggar. Angg
 | **Nama kelompok** | XenoRent |
 | **Nama tim** | XenoRent |
 | **Nama project** | XenoRent |
-| **Anggota tim** | Frontend: Muhammad Nadhif Aqila, Backend: Stevy Reuben Januardi, Dokumentasi: Muhammad Fazly Radithya |
+| **Anggota tim** | Muhammad Nadhif Aqila, Stevy Reuben Januardi, Muhammad Fazly Radithya |
 
 ## Video Demo
 
