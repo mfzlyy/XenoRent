@@ -1,5 +1,14 @@
 import './NadhifCurrency/NadhifCurrency.js';
 
+document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const button = event.target.closest('[data-print]');
+    if (!(button instanceof HTMLButtonElement) || button.disabled) return;
+
+    window.print();
+});
+
 document.addEventListener('submit', (event) => {
     const form = event.target;
     if (!(form instanceof HTMLFormElement)) return;

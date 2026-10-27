@@ -3,6 +3,9 @@
         <caption class="currency-caption"><span data-currency-rate-label aria-live="polite">Memuat kurs USD/IDR...</span> Sumber: Frankfurter. Denda ditampilkan dalam <span data-current-currency>Rupiah</span>.</caption>
         <thead>
             <tr>
+                @if (!empty($showMember))
+                    <th>Anggota</th>
+                @endif
                 <th>Kapal / kode</th>
                 <th>Tanggal sewa</th>
                 <th>Jatuh tempo</th>
@@ -14,6 +17,12 @@
         <tbody>
             @foreach($rentals as $rental)
                 <tr>
+                    @if (!empty($showMember))
+                        <td>
+                            <strong>{{ $rental->user?->name ?? 'Anggota tidak ditemukan' }}</strong>
+                            <small class="table-secondary">{{ $rental->user?->email }}</small>
+                        </td>
+                    @endif
                     <td>
                         @if($rental->unit)
                             <strong>{{ $rental->unit->name }}</strong>

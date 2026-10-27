@@ -128,7 +128,7 @@ class AdminMemberController extends Controller
         }
     }
 
-    public function rentals(int $id, RentalRepositoryInterface $rentalRepo, UserRepositoryInterface $userRepo): View
+    public function rentals(int $id, RentalRepositoryInterface $rentalRepo, UserRepositoryInterface $userRepo, Request $request): View
     {
         $member = EloquentUserRepository::class;
         $member = UserEloquent::withTrashed()->with('profile')->where('role', UserRole::MEMBER->value)->find($id);
@@ -145,15 +145,20 @@ class AdminMemberController extends Controller
             deletedAt: $member->deleted_at?->toDateTimeImmutable(),
         );
 
-        $rentals = $rentalRepo->getByUser($id, 15);
+        $month = $this->monthFilter($request);
+        $rentals = $rentalRepo->getByUser($id, 15, $month)->withQueryString();
 
-        return view('admin.members.rentals', compact('member', 'rentals'));
+        $months = $rentalRepo->getRentedMonths($id);
+        $allRentals = $rentalRepo->getAllByUser($id, $month);
+
+        return view('admin.members.rentals', compact('member', 'rentals', 'allRentals', 'month', 'months'));
     }
 
-    public function printRentals(int $id, Request $request, RentalRepositoryInterface $rentalRepo, UsdIdrRateService $rateService)
+    public function printRentals(int $id, RentalRepositoryInterface $rentalRepo, Request $request, UsdIdrRateService $rateService)
     {
         $member = UserEloquent::withTrashed()->where('role', UserRole::MEMBER->value)->findOrFail($id);
-        $rentals = $rentalRepo->getAllByUser($id);
+        $month = $this->monthFilter($request);
+        $rentals = $rentalRepo->getAllByUser($id, $month);
         $currency = $request->validate([
             'currency' => ['sometimes', 'in:IDR,USD'],
         ])['currency'] ?? 'IDR';
@@ -161,8 +166,9 @@ class AdminMemberController extends Controller
         $usdIdrRate = $rateData['rate'] ?? null;
         $usdIdrDate = $rateData['date'] ?? null;
 
-        $pdf = Pdf::loadView('admin.members.rentals-print', compact('member', 'rentals', 'currency', 'usdIdrRate', 'usdIdrDate'))
-            ->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadView('admin.members.rentals-print', compact(
+            'member', 'rentals', 'month', 'currency', 'usdIdrRate', 'usdIdrDate'
+        ))->setPaper('a4', 'landscape');
 
         $output = $pdf->output(['compress' => 0]);
         $embeddedText = $rentals
@@ -181,5 +187,32 @@ class AdminMemberController extends Controller
             'Content-Disposition' => 'attachment; filename="riwayat-sewa-'.$member->id.'.pdf"',
             'Content-Length' => (string) strlen($output),
         ]);
+    }
+
+    public function allRentals(Request $request, RentalRepositoryInterface $rentalRepo): View
+    {
+        $month = $this->monthFilter($request);
+        $rentals = $rentalRepo->getHistory(15, $month)->withQueryString();
+        $allRentals = $rentalRepo->getAllHistory($month);
+        $months = $rentalRepo->getRentedMonths();
+
+        return view('admin.members.all-rentals', compact('rentals', 'allRentals', 'month', 'months'));
+    }
+
+    private function monthFilter(Request $request): ?string
+    {
+        $data = $request->validate([
+            'bulan' => ['nullable', 'integer', 'between:1,12'],
+            'tahun' => ['nullable', 'integer', 'digits:4'],
+        ]);
+
+        $month = $data['bulan'] ?? null;
+        $year = $data['tahun'] ?? null;
+
+        if ($month !== null) {
+            return sprintf('%04d-%02d', $year ?? now()->year, $month);
+        }
+
+        return $year !== null ? sprintf('%04d', $year) : null;
     }
 }

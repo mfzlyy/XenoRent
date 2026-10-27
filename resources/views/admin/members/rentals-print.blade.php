@@ -1,3 +1,4 @@
+@php($month = $month ?? null)
 <!doctype html>
 <html lang="id">
 <head>
@@ -8,7 +9,7 @@
         body { color: #202a32; font-family: DejaVu Sans, sans-serif; font-size: 10pt; }
         h1 { margin: 0 0 4px; font-size: 24pt; }
         .eyebrow { margin: 0 0 7px; color: #7d321d; font-size: 8pt; font-weight: bold; letter-spacing: 1px; }
-        .member { margin: 0 0 20px; color: #525d63; }
+        .member { margin: 0 0 12px; color: #525d63; }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 9px 8px; border: 1px solid #c9c8bf; text-align: left; }
         th { background: #e5e3da; font-size: 8pt; text-transform: uppercase; }
@@ -20,9 +21,11 @@
     <p class="eyebrow">XENORENT / ARSIP ANGGOTA</p>
     <h1>Riwayat sewa</h1>
     <p class="member">{{ $member->name }} · {{ $member->email }}</p>
+    <p class="member">Periode: {{ $month ? (strlen($month) === 4 ? 'Tahun '.$month : \Illuminate\Support\Carbon::createFromFormat('!Y-m', $month)->translatedFormat('F Y')) : 'Semua bulan' }}</p>
+    @include('admin.members.partials.period-range', ['rows' => $rentals, 'month' => $month])
     <p class="member">Kurs konversi: @if($usdIdrRate) 1 USD = Rp{{ number_format($usdIdrRate, 2, ',', '.') }}@if($usdIdrDate) (referensi {{ $usdIdrDate }})@endif @else Kurs USD/IDR tidak tersedia @endif. Denda ditampilkan dalam {{ $currency === 'USD' ? 'USD' : 'Rupiah' }}.</p>
     @if($rentals->isEmpty())
-        <p class="empty">Anggota ini belum pernah menyewa.</p>
+        <p class="empty">Anggota ini belum pernah menyewa pada periode tersebut.</p>
     @else
         <table>
             <thead>
