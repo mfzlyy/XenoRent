@@ -44,7 +44,7 @@ Enam tabel inti: `users`, `profiles`, `categories`, `units`, `category_unit`, `r
 
 ## Menjalankan Aplikasi
 
-Kebutuhan: PHP 8.3+, Composer, Node.js, dan SQLite.
+Kebutuhan: PHP 8.4+, Composer, Node.js, dan SQLite.
 
 ```bash
 composer install
@@ -52,10 +52,11 @@ npm install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate:fresh --seed
+npm run build
 php artisan serve
 ```
 
-Buka http://localhost:8000. Satu perintah `php artisan migrate:fresh --seed` membangun ulang seluruh database beserta data contoh.
+Buka http://localhost:8000. `migrate:fresh --seed` menghapus dan membangun ulang database beserta data contoh. Untuk database yang sudah berisi data, gunakan `php artisan migrate` agar data tidak dihapus.
 
 ### Akun contoh (password semua akun: `password`)
 
@@ -69,7 +70,9 @@ Buka http://localhost:8000. Satu perintah `php artisan migrate:fresh --seed` mem
 
 ```bash
 php artisan test        # PHPUnit (unit dan feature test backend)
+php artisan test:static # Pemeriksaan sintaks PHP statis
 npm run uat             # UAT end-to-end dengan Playwright
+npm run stress:smoke    # 20 request GET untuk smoke/load test lokal
 ```
 
 Hasil UAT beserta tangkapan layar per skenario ada di [docs/uat/Hasil-UAT.md](docs/uat/Hasil-UAT.md).
@@ -85,4 +88,4 @@ Hasil UAT beserta tangkapan layar per skenario ada di [docs/uat/Hasil-UAT.md](do
 
 ## Teknologi
 
-Laravel 13, PHP 8.3, SQLite, Blade, CSS kustom (`public/css/xenorent.css`).
+Laravel 13, PHP 8.4, SQLite, Blade, CSS kustom (`public/css/xenorent.css`).

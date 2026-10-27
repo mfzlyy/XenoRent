@@ -6,11 +6,37 @@ use App\Infrastructure\Eloquent\RentalEloquent;
 use App\Infrastructure\Eloquent\UnitEloquent;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class RentalHistoryPresentationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Cache::store('file')->flush();
+        Http::fake([
+            '*' => Http::response([
+                'amount' => 1,
+                'base' => 'USD',
+                'date' => '2026-10-27',
+                'rates' => ['IDR' => 16000],
+            ]),
+        ]);
+    }
+
+    public function test_authenticated_user_can_fetch_the_latest_usd_idr_rate(): void
+    {
+        $this->actingAs(User::factory()->create(['role' => 'anggota']))
+            ->getJson(route('currency.usd-idr'))
+            ->assertOk()
+            ->assertJsonPath('rate', 16000)
+            ->assertJsonPath('date', '2026-10-27');
+    }
 
     public function test_rental_table_shows_return_date_and_pending_return_state(): void
     {
@@ -94,18 +120,42 @@ class RentalHistoryPresentationTest extends TestCase
                 'rented_at' => '2025-03-01',
                 'due_at' => '2025-03-10',
                 'returned_at' => '2025-03-12',
-                'fine_amount' => 0,
+                'fine_amount' => 20_000,
                 'status' => 'dikembalikan',
             ]);
         }
 
-        $this->actingAs($admin)
-            ->get(route('admin.members.rentals.print', $member->id))
-            ->assertOk()
-            ->assertSee('Tanggal kembali')
-            ->assertSee('12 Mar 2025')
-            ->assertSee('Riwayat kapal 16')
-            ->assertDontSee('pagination-wrap');
+        $response = $this->actingAs($admin)
+            ->get(route('admin.members.rentals.print', $member->id));
+
+        $response->assertOk();
+        $response->assertHeader('content-type', 'application/pdf');
+        $this->assertStringStartsWith('%PDF-', $response->getContent());
+
+        $usdResponse = $this->get(route('admin.members.rentals.print', [
+            'id' => $member->id,
+            'currency' => 'USD',
+        ]));
+
+        $usdResponse->assertOk();
+        $usdResponse->assertHeader('content-type', 'application/pdf');
+        $this->assertStringStartsWith('%PDF-', $usdResponse->getContent());
+        $this->assertNotSame($response->getContent(), $usdResponse->getContent());
+
+        $rental = RentalEloquent::with('unit')->where('user_id', $member->id)->firstOrFail();
+        $currencyData = [
+            'member' => $member,
+            'rentals' => collect([$rental]),
+            'usdIdrRate' => 16000,
+            'usdIdrDate' => '2026-10-27',
+        ];
+        $usdHtml = view('admin.members.rentals-print', $currencyData + ['currency' => 'USD'])->render();
+        $idrHtml = view('admin.members.rentals-print', $currencyData + ['currency' => 'IDR'])->render();
+
+        $this->assertStringContainsString('Denda ditampilkan dalam USD', $usdHtml);
+        $this->assertStringContainsString('$1.25', $usdHtml);
+        $this->assertStringContainsString('Denda ditampilkan dalam Rupiah', $idrHtml);
+        $this->assertStringContainsString('Rp20.000', $idrHtml);
     }
 
     private function makeRental(array $attributes = []): RentalEloquent

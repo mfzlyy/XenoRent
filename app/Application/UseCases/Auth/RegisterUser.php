@@ -33,6 +33,7 @@ class RegisterUser
             email: $email,
             password: Hash::make($data->password),
             role: UserRole::MEMBER,
+            isApproved: false,
         );
 
         $profile = new Profile(

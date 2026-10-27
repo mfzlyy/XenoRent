@@ -6,7 +6,8 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
+        "barryvdh/laravel-dompdf": "^3.1",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0"
     },
@@ -50,6 +51,7 @@
             "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
         ],
+        "test:static": "@php scripts/check-static.php",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

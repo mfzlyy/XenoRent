@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'XenoRent') | XenoRent</title>
-    <link rel="stylesheet" href="{{ asset('css/xenorent.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 <body>
@@ -20,11 +20,15 @@
                 <a href="{{ route('admin.units.index') }}" @if(request()->routeIs('admin.units.*')) aria-current="page" @endif>Kelola Unit</a>
                 <a href="{{ route('admin.categories.index') }}" @if(request()->routeIs('admin.categories.*')) aria-current="page" @endif>Kategori</a>
                 <a href="{{ route('admin.members.index') }}" @if(request()->routeIs('admin.members.*')) aria-current="page" @endif>Anggota</a>
+                <a href="{{ route('admin.nadhif-validasi-akun.index') }}" @if(request()->routeIs('admin.nadhif-validasi-akun.*')) aria-current="page" @endif>Validasi Register</a>
                 <a href="{{ route('admin.rentals.active') }}" @if(request()->routeIs('admin.rentals.*')) aria-current="page" @endif>Sewa Aktif</a>
+                <a href="{{ route('admin.resources.index') }}" @if(request()->routeIs('admin.resources.*')) aria-current="page" @endif>Resource</a>
+                <a href="{{ route('admin.rental-settings.edit') }}" @if(request()->routeIs('admin.rental-settings.*')) aria-current="page" @endif>Pengaturan Sewa</a>
             @else
                 <a href="{{ route('rentals.mine') }}" @if(request()->routeIs('rentals.mine')) aria-current="page" @endif>Sewa Saya</a>
             @endif
             <a href="{{ route('profile.edit') }}" @if(request()->routeIs('profile.*')) aria-current="page" @endif>Profil</a>
+            <a href="{{ route('media.guide') }}" @if(request()->routeIs('media.guide')) aria-current="page" @endif>Panduan Media</a>
         </nav>
         <div class="user-menu"><span>{{ auth()->user()->name }}</span><form method="post" action="{{ route('logout') }}">@csrf<button class="button button-ghost" type="submit">Keluar</button></form></div>
     @endauth
@@ -36,7 +40,6 @@
     @yield('content')
 </main>
 <footer class="site-footer"><span>XENORENT / Logistik hanggar antargalaksi</span><span>Pengembalian unit diproses oleh Admin.</span></footer>
-<script src="{{ asset('js/xenorent.js') }}" defer></script>
 @stack('scripts')
 </body>
 </html>

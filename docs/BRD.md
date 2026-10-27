@@ -30,7 +30,7 @@ XenoRent adalah aplikasi web untuk menyewa kapal alien. Anggota bisa mendaftar, 
 | Peran pengguna        | Admin dan Anggota (User)                                                              |
 | Unit yang disewakan   | Kapal alien, dibedakan dengan kode unit yang unik                                     |
 | Aturan inti           | Wajib login, maksimal 2 unit aktif per anggota, maksimal 5 hari, denda jika terlambat |
-| Stack yang ditetapkan | Laravel 13 (PHP 8.3)                                                                  |
+| Stack yang ditetapkan | Laravel 13 (PHP 8.4)                                                                  |
 | Tim                   | 3 orang: Frontend, Backend, Dokumentasi                                               |
 | Repositori            | GitLab                                                                                |
 
@@ -223,7 +223,7 @@ Risiko terbesar adalah keterbatasan waktu pengerjaan dengan tim beranggotakan 3 
 
 **Batasan**
 
-- Framework yang digunakan adalah Laravel 13 (rilis 17 Maret 2026, minimal PHP 8.3).
+- Framework yang digunakan adalah Laravel 13 (rilis 17 Maret 2026, minimal PHP 8.4).
 
 - Kode dan dokumen dikumpulkan di GitLab.
 

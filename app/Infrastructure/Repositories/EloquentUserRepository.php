@@ -41,6 +41,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             'email' => $user->email->value,
             'password' => $user->password,
             'role' => $user->role->value,
+            'is_approved' => $user->isApproved,
         ]);
 
         $profileModel = ProfileEloquent::create([
@@ -62,6 +63,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             'email' => $user->email->value,
             'password' => $user->password,
             'role' => $user->role->value,
+            'is_approved' => $user->isApproved,
         ]);
 
         ProfileEloquent::updateOrCreate(
@@ -126,6 +128,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             createdAt: $model->created_at?->toDateTimeImmutable(),
             updatedAt: $model->updated_at?->toDateTimeImmutable(),
             deletedAt: $model->deleted_at?->toDateTimeImmutable(),
+            isApproved: $model->is_approved,
         );
     }
 }

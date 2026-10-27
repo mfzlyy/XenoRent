@@ -3,9 +3,10 @@
 namespace App\Presentation\Http\Controllers;
 
 use App\Application\Interfaces\RentalRepositoryInterface;
+use App\Application\Interfaces\RentalSettingsRepositoryInterface;
 use App\Application\Interfaces\UnitRepositoryInterface;
 use App\Application\Interfaces\UserRepositoryInterface;
-use App\Domain\Services\RentalPolicyService;
+
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +14,7 @@ class DashboardController extends Controller
 {
     public function index(
         RentalRepositoryInterface $rentalRepo,
-        RentalPolicyService $policy,
+        RentalSettingsRepositoryInterface $rentalSettings,
         UnitRepositoryInterface $unitRepo,
         UserRepositoryInterface $userRepo,
     ): View {
@@ -29,7 +30,7 @@ class DashboardController extends Controller
         }
 
         $activeRentalCount = $rentalRepo->countActiveByUser($user->id);
-        $rentalLimit = $policy->getMaxActiveRentals();
+        $rentalLimit = $rentalSettings->getMaxActiveRentals();
         $myRentals = $rentalRepo->getByUser($user->id, 5);
 
         return view('dashboard', compact('activeRentalCount', 'rentalLimit', 'myRentals'));

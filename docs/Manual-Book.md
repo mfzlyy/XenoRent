@@ -337,7 +337,7 @@ Seluruh halaman dapat dibuka di ponsel dan menyesuaikan lebar layar, sehingga ha
 
 ## Lampiran A — Menjalankan Aplikasi untuk Pengujian
 
-Bagian ini ditujukan bagi penguji atau dosen yang ingin menjalankan XenoRent di komputer sendiri. Kebutuhan: PHP 8.3 atau lebih baru, Composer, Node.js, dan SQLite.
+Bagian ini ditujukan bagi penguji atau dosen yang ingin menjalankan XenoRent di komputer sendiri. Kebutuhan: PHP 8.4 atau lebih baru, Composer, Node.js, dan SQLite.
 
 ``` bash
 composer install

@@ -19,6 +19,7 @@ class User
         public readonly ?\DateTimeImmutable $createdAt = null,
         public readonly ?\DateTimeImmutable $updatedAt = null,
         public readonly ?\DateTimeImmutable $deletedAt = null,
+        public readonly bool $isApproved = true,
     ) {}
 
     public function isAdmin(): bool

@@ -25,7 +25,19 @@ class AuthController extends Controller
 
         $user = $loginUser->execute($credentials['email'], $credentials['password']);
 
-        if (! $user || ! Auth::loginUsingId($user->id, $request->boolean('remember'))) {
+        if (! $user) {
+            throw ValidationException::withMessages([
+                'email' => 'Email atau kata sandi salah',
+            ]);
+        }
+
+        if (! $user->isApproved) {
+            throw ValidationException::withMessages([
+                'email' => 'Akun kamu belum disetujui Admin. Silakan coba lagi setelah validasi.',
+            ]);
+        }
+
+        if (! Auth::loginUsingId($user->id, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => 'Email atau kata sandi salah',
             ]);
@@ -59,11 +71,9 @@ class AuthController extends Controller
             address: $data['address'],
         );
 
-        $user = $registerUser->execute($userData);
-        Auth::loginUsingId($user->id);
-        $request->session()->regenerate();
+        $registerUser->execute($userData);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('login')->with('success', 'Pendaftaran berhasil. Silakan tunggu persetujuan Admin sebelum masuk.');
     }
 
     public function logout(Request $request)

@@ -12,16 +12,14 @@ use App\Domain\Exceptions\UnitNotAvailableException;
 
 class RentalPolicyService
 {
-    private const MAX_ACTIVE_RENTALS = 2;
-
-    public function assertCanRent(Unit $unit, int $activeRentalCount): void
+    public function assertCanRent(Unit $unit, int $activeRentalCount, int $maxActiveRentals): void
     {
         if ($unit->status !== UnitStatus::AVAILABLE) {
             throw new UnitNotAvailableException;
         }
 
-        if ($activeRentalCount >= self::MAX_ACTIVE_RENTALS) {
-            throw new RentalQuotaExceededException;
+        if ($activeRentalCount >= $maxActiveRentals) {
+            throw new RentalQuotaExceededException($maxActiveRentals);
         }
     }
 
@@ -32,8 +30,4 @@ class RentalPolicyService
         }
     }
 
-    public function getMaxActiveRentals(): int
-    {
-        return self::MAX_ACTIVE_RENTALS;
-    }
 }

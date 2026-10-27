@@ -1018,29 +1018,30 @@
   },
   "KP-32": {
     "kode": "KP-32",
-    "judul": "Admin membuka riwayat sewa seorang anggota",
+    "judul": "Admin membuka riwayat sewa dan mengubah tampilan mata uang denda",
     "fitur": "F-13",
     "ref": "BR-17, TB-05",
     "langkah": [
       "Login sebagai Admin lalu buka menu Anggota.",
-      "Pada Bima tekan \"Lihat riwayat sewa\"."
+      "Pada Bima tekan \"Lihat riwayat sewa\".",
+      "Ubah tampilan denda ke USD lalu kembalikan ke Rupiah."
     ],
-    "harapan": "Semua sewa anggota tampil lengkap dengan tanggal sewa, jatuh tempo, tanggal kembali, dan denda.",
+    "harapan": "Riwayat tampil lengkap dan nilai denda dihitung ulang sesuai kurs yang ditampilkan saat mata uang diubah.",
     "status": "Lulus",
     "deviasi": [],
     "kegagalan": "",
     "bukti": [
       {
-        "berkas": "KP-32_01_riwayat-sewa-bima-tanggal-sewa-jatuh-tempo-tanggal-kembali-dan-denda.png",
-        "label": "Riwayat sewa Bima: tanggal sewa, jatuh tempo, tanggal kembali, dan denda"
+        "berkas": "KP-32_01_riwayat-sewa-bima-tanggal-status-denda-idr-dan-konversi-usd.png",
+        "label": "Riwayat sewa Bima: tanggal, status, denda IDR, dan konversi USD"
       },
       {
         "berkas": "KP-32_02_riwayat-sewa-rina-dua-sewa-aktif.png",
         "label": "Riwayat sewa Rina: dua sewa aktif"
       }
     ],
-    "durasiMs": 1696,
-    "dijalankan": "2026-10-23T00:12:39.073Z"
+    "durasiMs": 10522,
+    "dijalankan": "2026-10-27T04:07:30.852Z"
   },
   "KP-33": {
     "kode": "KP-33",

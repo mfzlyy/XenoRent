@@ -205,10 +205,15 @@ uat('KP-31', {
 uat('KP-32', {
     fitur: 'F-13',
     ref: 'BR-17, TB-05',
-    judul: 'Admin membuka riwayat sewa seorang anggota',
-    langkah: ['Login sebagai Admin lalu buka menu Anggota.', 'Pada Bima tekan "Lihat riwayat sewa".'],
-    harapan: 'Semua sewa anggota tampil lengkap dengan tanggal sewa, jatuh tempo, tanggal kembali, dan denda.',
+    judul: 'Admin membuka riwayat sewa dan mengubah tampilan mata uang denda',
+    langkah: ['Login sebagai Admin lalu buka menu Anggota.', 'Pada Bima tekan "Lihat riwayat sewa".', 'Ubah tampilan denda ke USD lalu kembalikan ke Rupiah.'],
+    harapan: 'Riwayat tampil lengkap dan nilai denda dihitung ulang sesuai kurs yang ditampilkan saat mata uang diubah.',
 }, async ({ page, bukti }) => {
+    await page.route('**/currency/usd-idr', (route) => route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ rate: 16000, date: '2026-10-27' }),
+    }));
     await login(page, AKUN.admin);
     await page.getByRole('link', { name: 'Anggota', exact: true }).click();
     await page.locator('.record-card').filter({ hasText: AKUN.bima.email }).getByRole('link', { name: 'Lihat riwayat sewa' }).click();
@@ -224,7 +229,20 @@ uat('KP-32', {
     await expect(kph).toContainText(tgl(-5));
     await expect(kph).toContainText('Dikembalikan');
     await expect(kph).toContainText('Rp20.000');
-    await bukti('Riwayat sewa Bima: tanggal sewa, jatuh tempo, tanggal kembali, dan denda');
+    await page.getByRole('button', { name: 'Tampilkan USD' }).click();
+    await expect(page.locator('[data-current-currency]')).toHaveText('USD');
+    await expect(kph.locator('[data-fine-amount]')).toHaveText('$1.25');
+    const pdfLink = page.getByRole('link', { name: 'Unduh PDF riwayat' });
+    await expect(pdfLink).toHaveAttribute('href', /currency=USD/);
+    const downloadPromise = page.waitForEvent('download');
+    await pdfLink.click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBe(`riwayat-sewa-${idUser(AKUN.bima.email)}.pdf`);
+    await page.getByRole('button', { name: 'Tampilkan Rupiah' }).click();
+    await expect(page.locator('[data-current-currency]')).toHaveText('Rupiah');
+    await expect(kph.locator('[data-fine-amount]')).toContainText('20.000');
+    await expect(pdfLink).toHaveAttribute('href', /currency=IDR/);
+    await bukti('Riwayat sewa Bima: tanggal, status, denda IDR, dan konversi USD');
 
     await page.goto(`/admin/members/${idUser(AKUN.rina.email)}/rentals`);
     await expect(page.locator('.data-table tbody tr')).toHaveCount(2);
@@ -234,47 +252,36 @@ uat('KP-32', {
 uat('KP-33', {
     fitur: 'F-13',
     ref: 'BR-17, NFR-06',
-    judul: 'Admin menekan Cetak: tampilan cetak tanpa menu navigasi dan siap disimpan sebagai PDF',
+    judul: 'Admin mengunduh riwayat sewa sebagai PDF dari server',
     langkah: [
-        'Login sebagai Admin, buka riwayat sewa Bima, lalu tekan "Print riwayat".',
-        'Di halaman versi cetak tekan "Print riwayat" (memanggil dialog cetak browser).',
-        'Tampilkan halaman dalam mode cetak dan simpan sebagai PDF.',
+        'Login sebagai Admin dan buka riwayat sewa anggota.',
+        'Pilih "Unduh PDF riwayat".',
+        'Periksa berkas PDF yang diunduh.',
     ],
-    harapan: 'Versi cetak tanpa menu navigasi, footer, dan tombol; tabel riwayat tampil rapi dan berhasil disimpan sebagai PDF.',
+    harapan: 'Riwayat diunduh sebagai PDF A4 landscape dari server tanpa membuka dialog cetak browser.',
 }, async ({ page, bukti }) => {
     await login(page, AKUN.admin);
-    await page.goto(`/admin/members/${idUser(AKUN.bima.email)}/rentals`);
-    await page.getByRole('link', { name: 'Print riwayat' }).click();
-    await expect(page).toHaveURL(/\/rentals\/print$/);
-
-    // Layar biasa: menu navigasi masih ada. Mode cetak: menu hilang.
-    await expect(page.locator('.topbar')).toBeVisible();
-    await bukti('Halaman riwayat versi cetak di layar (sebelum mode cetak)');
-
-    await page.evaluate(() => {
-        window.__dicetak = 0;
-        window.print = () => { window.__dicetak += 1; };
-    });
-    await page.locator('[data-print]').click();
-    expect(await page.evaluate(() => window.__dicetak)).toBe(1);
-
-    await page.emulateMedia({ media: 'print' });
-    await expect(page.locator('.topbar')).toBeHidden();
-    await expect(page.locator('.site-footer')).toBeHidden();
-    await expect(page.locator('[data-print]')).toBeHidden();
+    const memberId = idUser(AKUN.bima.email);
+    await page.goto(`/admin/members/${memberId}/rentals`);
     await expect(page.locator('.data-table')).toBeVisible();
-    await expect(baris(page, 'KPH-001')).toContainText('Rp20.000');
-    await bukti('Tampilan mode cetak: tanpa menu navigasi, footer, dan tombol');
+
+    const downloadPromise = page.waitForEvent('download');
+    await page.getByRole('link', { name: 'Unduh PDF riwayat' }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBe(`riwayat-sewa-${memberId}.pdf`);
 
     fs.mkdirSync(PDF_DIR, { recursive: true });
     const berkasPdf = path.join(PDF_DIR, 'KP-33_riwayat-sewa-bima.pdf');
-    await page.pdf({ path: berkasPdf, format: 'A4', landscape: true, printBackground: true, preferCSSPageSize: true });
+    const berkasSementara = await download.path();
+    expect(berkasSementara).not.toBeNull();
+    fs.copyFileSync(berkasSementara, berkasPdf);
+
     const isi = fs.readFileSync(berkasPdf);
     expect(isi.subarray(0, 5).toString()).toBe('%PDF-');
     expect(isi.length).toBeGreaterThan(5_000);
-    await bukti.kartu('PDF riwayat sewa berhasil dibuat', 'KP-33 · Simpan sebagai PDF', [
+    await bukti.kartu('PDF riwayat sewa diunduh dari server', 'KP-33 · DomPDF', [
         [true, 'Berkas: docs/uat/pdf/KP-33_riwayat-sewa-bima.pdf'],
         [true, `Ukuran: ${(isi.length / 1024).toFixed(1)} KB, ditandai header %PDF-`],
-        [true, 'Menu navigasi, footer, dan tombol Print tidak ikut tercetak'],
+        [true, 'Berkas PDF diunduh langsung, tanpa window.print'],
     ]);
 });

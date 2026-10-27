@@ -4,8 +4,8 @@ namespace App\Domain\Exceptions;
 
 class RentalQuotaExceededException extends DomainException
 {
-    public function __construct(string $message = 'Kuota sewa penuh (maksimal 2 unit bersamaan)')
+    public function __construct(int $maxActiveRentals = 2)
     {
-        parent::__construct($message);
+        parent::__construct("Kuota sewa penuh (maksimal {$maxActiveRentals} unit bersamaan)");
     }
 }

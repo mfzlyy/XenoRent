@@ -1,5 +1,6 @@
-<div class="table-scroll">
+<div class="table-scroll" data-currency-table data-currency-rate-url="{{ route('currency.usd-idr') }}" data-usd-idr-rate="">
     <table class="data-table">
+        <caption class="currency-caption"><span data-currency-rate-label aria-live="polite">Memuat kurs USD/IDR...</span> Sumber: Frankfurter. Denda ditampilkan dalam <span data-current-currency>Rupiah</span>.</caption>
         <thead>
             <tr>
                 <th>Kapal / kode</th>
@@ -7,7 +8,7 @@
                 <th>Jatuh tempo</th>
                 <th>Tanggal kembali</th>
                 <th>Status</th>
-                <th>Denda</th>
+                <th>Denda <button class="currency-toggle" type="button" data-currency-toggle data-currency="IDR" aria-pressed="false" disabled>Tampilkan USD</button></th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +27,7 @@
                     <td>{{ $rental->due_at->format('d M Y') }}</td>
                     <td>{{ $rental->returned_at?->format('d M Y') ?? 'Belum dikembalikan' }}</td>
                     <td><span class="status-tag status-{{ $rental->status }}">{{ ucfirst($rental->status) }}</span></td>
-                    <td>Rp{{ number_format($rental->fine_amount, 0, ',', '.') }}</td>
+                    <td data-fine-amount="{{ $rental->fine_amount }}">Rp{{ number_format($rental->fine_amount, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>

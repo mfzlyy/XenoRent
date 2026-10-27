@@ -4,6 +4,7 @@ namespace App\Application\UseCases\Rental;
 
 use App\Application\DTOs\CreateRentalData;
 use App\Application\Interfaces\RentalRepositoryInterface;
+use App\Application\Interfaces\RentalSettingsRepositoryInterface;
 use App\Application\Interfaces\UnitRepositoryInterface;
 use App\Application\Interfaces\UserRepositoryInterface;
 use App\Domain\Entities\Rental;
@@ -21,6 +22,7 @@ class CreateRental
         private readonly RentalRepositoryInterface $rentalRepository,
         private readonly UnitRepositoryInterface $unitRepository,
         private readonly UserRepositoryInterface $userRepository,
+        private readonly RentalSettingsRepositoryInterface $rentalSettingsRepository,
         private readonly RentalPolicyService $policyService,
         private readonly RentalPricingService $pricingService,
     ) {}
@@ -37,7 +39,8 @@ class CreateRental
 
             $activeCount = $this->rentalRepository->countActiveByUser($data->userId);
 
-            $this->policyService->assertCanRent($unit, $activeCount);
+            $maxActiveRentals = $this->rentalSettingsRepository->getMaxActiveRentals();
+            $this->policyService->assertCanRent($unit, $activeCount, $maxActiveRentals);
 
             $rentedAt = new \DateTimeImmutable;
             $dueAt = $this->pricingService->calculateDueDate($rentedAt);

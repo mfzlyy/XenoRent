@@ -13,7 +13,7 @@
 
     </section>
 @else
-    <section class="member-welcome"><div><p class="eyebrow">DASHBOARD ANGGOTA / HANGGAR 07</p><h1>Siap berangkat, {{ auth()->user()->name }}?</h1><p>Cari unit tersedia untuk rencana perjalanan antargalaksimu.</p><a class="button button-primary" href="{{ route('units.index') }}">Cari kapal tersedia</a></div><div class="quota-panel"><span>SISA KUOTA SEWA</span><strong>{{ $rentalLimit - $activeRentalCount }} <small>/ {{ $rentalLimit }}</small></strong><p>unit yang bisa disewa bersamaan</p></div></section>
+    <section class="member-welcome"><div><p class="eyebrow">DASHBOARD ANGGOTA / HANGGAR 07</p><h1>Siap berangkat, {{ auth()->user()->name }}?</h1><p>Cari unit tersedia untuk rencana perjalanan antargalaksimu.</p><a class="button button-primary" href="{{ route('units.index') }}">Cari kapal tersedia</a></div><div class="quota-panel"><span>SISA KUOTA SEWA</span><strong>{{ max(0, $rentalLimit - $activeRentalCount) }} <small>/ {{ $rentalLimit }}</small></strong><p>unit yang bisa disewa bersamaan</p></div></section>
     <section class="content-section"><div class="section-heading"><div><p class="eyebrow">AKTIVITAS ANGGOTA</p><h2>Sewa saya</h2></div><a class="text-link" href="{{ route('rentals.mine') }}">Lihat semua sewa</a></div>
         @if($myRentals->isEmpty())
             <div class="empty-panel"><h3>Belum ada kapal yang disewa.</h3><p>Jelajahi daftar unit hanggar untuk memulai.</p><a class="text-link" href="{{ route('units.index') }}">Buka daftar unit</a></div>

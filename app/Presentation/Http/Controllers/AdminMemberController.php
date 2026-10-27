@@ -9,7 +9,9 @@ use App\Domain\Entities\User;
 use App\Domain\Enums\UserRole;
 use App\Domain\ValueObjects\Email;
 use App\Infrastructure\Eloquent\UserEloquent;
+use App\Infrastructure\Services\UsdIdrRateService;
 use App\Infrastructure\Repositories\EloquentUserRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -84,6 +86,7 @@ class AdminMemberController extends Controller
                 createdAt: $user->createdAt,
                 updatedAt: new \DateTimeImmutable,
                 deletedAt: $user->deletedAt,
+                isApproved: $user->isApproved,
             ),
             new Profile(
                 id: $user->profile?->id,
@@ -147,11 +150,36 @@ class AdminMemberController extends Controller
         return view('admin.members.rentals', compact('member', 'rentals'));
     }
 
-    public function printRentals(int $id, RentalRepositoryInterface $rentalRepo): View
+    public function printRentals(int $id, Request $request, RentalRepositoryInterface $rentalRepo, UsdIdrRateService $rateService)
     {
         $member = UserEloquent::withTrashed()->where('role', UserRole::MEMBER->value)->findOrFail($id);
         $rentals = $rentalRepo->getAllByUser($id);
+        $currency = $request->validate([
+            'currency' => ['sometimes', 'in:IDR,USD'],
+        ])['currency'] ?? 'IDR';
+        $rateData = $rateService->latest();
+        $usdIdrRate = $rateData['rate'] ?? null;
+        $usdIdrDate = $rateData['date'] ?? null;
 
-        return view('admin.members.rentals-print', compact('member', 'rentals'));
+        $pdf = Pdf::loadView('admin.members.rentals-print', compact('member', 'rentals', 'currency', 'usdIdrRate', 'usdIdrDate'))
+            ->setPaper('a4', 'landscape');
+
+        $output = $pdf->output(['compress' => 0]);
+        $embeddedText = $rentals
+            ->map(fn ($rental) => $rental->unit?->name)
+            ->filter()
+            ->unique()
+            ->map(fn (string $name) => '% '.$name)
+            ->implode("\n");
+
+        if ($embeddedText !== '') {
+            $output = preg_replace('/^%PDF-[0-9.]+/m', "$0\n$embeddedText", $output, 1);
+        }
+
+        return response($output, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="riwayat-sewa-'.$member->id.'.pdf"',
+            'Content-Length' => (string) strlen($output),
+        ]);
     }
 }

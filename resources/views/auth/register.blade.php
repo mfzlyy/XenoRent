@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Daftar anggota')
 @section('content')
-<section class="page-heading"><p class="eyebrow">PENDAFTARAN ANGGOTA</p><h1>Buat akun hanggar</h1><p>Semua akun yang mendaftar mendapat peran Anggota.</p></section>
+<section class="page-heading"><p class="eyebrow">PENDAFTARAN ANGGOTA</p><h1>Buat akun hanggar</h1><p>Setelah mendaftar, akun perlu disetujui Admin sebelum bisa digunakan untuk masuk.</p></section>
 <form class="panel form-grid" method="post" action="{{ route('register.store') }}">
     @csrf
     <div class="field"><label for="name">Nama lengkap <span>Wajib</span></label><input id="name" name="name" value="{{ old('name') }}" maxlength="100" autocomplete="name" required>@error('name')<small class="field-error">{{ $message }}</small>@enderror</div>

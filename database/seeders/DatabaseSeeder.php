@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
                     'name' => $userData['name'],
                     'password' => Hash::make('password'),
                     'role' => $userData['role'],
+                    'is_approved' => true,
                     'deleted_at' => null,
                 ],
             );

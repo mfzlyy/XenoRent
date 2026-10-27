@@ -1,6 +1,6 @@
 # Hasil UAT — XenoRent
 
-Dibuat otomatis oleh Playwright pada 2026-10-23 00:13:25 UTC. Skenario diturunkan dari BRD, Flowchart & ERD, dan PRD (kode KP, F, S, NFR, TB mengacu ke dokumen tersebut).
+Dibuat otomatis oleh Playwright pada 2026-10-27 04:07:31 UTC. Skenario diturunkan dari BRD, Flowchart & ERD, dan PRD (kode KP, F, S, NFR, TB mengacu ke dokumen tersebut).
 
 ## Ringkasan
 
@@ -52,7 +52,7 @@ Dibuat otomatis oleh Playwright pada 2026-10-23 00:13:25 UTC. Skenario diturunka
 | KP-29 | F-12 | Admin memproses pengembalian 2 hari setelah jatuh tempo | Lulus |
 | KP-30 | F-12 | Admin memproses sewa yang sudah dikembalikan | Lulus |
 | KP-31 | F-12 | Anggota mencoba memproses pengembalian lewat URL | Lulus |
-| KP-32 | F-13 | Admin membuka riwayat sewa seorang anggota | Lulus |
+| KP-32 | F-13 | Admin membuka riwayat sewa dan mengubah tampilan mata uang denda | Lulus |
 | KP-33 | F-13 | Admin menekan Cetak: tampilan cetak tanpa menu navigasi dan siap disimpan sebagai PDF | Lulus |
 
 ### B. Fitur pendukung (login, logout, profil, fitur Must lain)
@@ -671,18 +671,19 @@ Dibuat otomatis oleh Playwright pada 2026-10-23 00:13:25 UTC. Skenario diturunka
 
 ![Anggota memaksa proses kembali: halaman Akses ditolak (403)](screenshots/KP-31_01_anggota-memaksa-proses-kembali-halaman-akses-ditolak-403.png)
 
-#### KP-32 — Admin membuka riwayat sewa seorang anggota
+#### KP-32 — Admin membuka riwayat sewa dan mengubah tampilan mata uang denda
 
 - **Fitur / referensi:** F-13 · BR-17, TB-05
 - **Hasil:** Lulus
 - **Langkah:**
   1. Login sebagai Admin lalu buka menu Anggota.
   2. Pada Bima tekan "Lihat riwayat sewa".
-- **Hasil yang diharapkan:** Semua sewa anggota tampil lengkap dengan tanggal sewa, jatuh tempo, tanggal kembali, dan denda.
+  3. Ubah tampilan denda ke USD lalu kembalikan ke Rupiah.
+- **Hasil yang diharapkan:** Riwayat tampil lengkap dan nilai denda dihitung ulang sesuai kurs yang ditampilkan saat mata uang diubah.
 
-*Riwayat sewa Bima: tanggal sewa, jatuh tempo, tanggal kembali, dan denda* — `KP-32_01_riwayat-sewa-bima-tanggal-sewa-jatuh-tempo-tanggal-kembali-dan-denda.png`
+*Riwayat sewa Bima: tanggal, status, denda IDR, dan konversi USD* — `KP-32_01_riwayat-sewa-bima-tanggal-status-denda-idr-dan-konversi-usd.png`
 
-![Riwayat sewa Bima: tanggal sewa, jatuh tempo, tanggal kembali, dan denda](screenshots/KP-32_01_riwayat-sewa-bima-tanggal-sewa-jatuh-tempo-tanggal-kembali-dan-denda.png)
+![Riwayat sewa Bima: tanggal, status, denda IDR, dan konversi USD](screenshots/KP-32_01_riwayat-sewa-bima-tanggal-status-denda-idr-dan-konversi-usd.png)
 
 *Riwayat sewa Rina: dua sewa aktif* — `KP-32_02_riwayat-sewa-rina-dua-sewa-aktif.png`
 

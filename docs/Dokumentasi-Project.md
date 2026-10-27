@@ -34,8 +34,8 @@ Pembagian tersebut menunjukkan area tanggung jawab utama. Integrasi fitur dan pe
 | PHP | 8.3; kebutuhan Composer `^8.3` | Runtime aplikasi dan tes backend |
 | Laravel Framework | 13.38.0 (terkunci di `composer.lock`) | Routing web, middleware, validasi, session, dependency injection, dan ORM |
 | Database | SQLite | Penyimpanan data aplikasi dan basis data lokal untuk UAT |
-| Antarmuka | Blade dan CSS kustom | Template halaman dan tampilan responsif; stylesheet utama `public/css/xenorent.css` |
-| Asset build | Vite 8.3.5 dan Laravel Vite Plugin 3.2.0 | Pengembangan dan kompilasi aset frontend |
+| Antarmuka | Blade dan CSS kustom | Template halaman; source stylesheet `resources/css/app.css` dikompilasi melalui Vite |
+| Asset build | Vite 8.3.5 dan Laravel Vite Plugin 3.2.0 | Mengompilasi `resources/css/app.css` dan `resources/js/app.js` ke `public/build` |
 | Pengujian backend | PHPUnit 12.5.40 | Tes unit dan feature melalui PHPUnit/Laravel |
 | Pengujian browser | Playwright Test 1.64.1 | Skenario end-to-end serta tangkapan layar UAT |
 | Package manager frontend | Node.js dan npm | Instalasi dependency serta menjalankan Vite dan Playwright |
@@ -229,7 +229,7 @@ Validasi di browser dapat membantu pengalaman pengguna, tetapi keputusan akses, 
 
 ### 10.1 Persyaratan dan langkah menjalankan
 
-Persyaratan lokal: PHP 8.3 atau lebih baru, Composer, Node.js/npm, dan SQLite. Dari root repositori, jalankan:
+Persyaratan lokal: PHP 8.4 atau lebih baru, Composer, Node.js/npm, dan SQLite. Pastikan Composer memakai PHP 8.4, lalu dari root repositori jalankan:
 
 ```bash
 composer install
@@ -293,7 +293,7 @@ Prioritas tersebut merupakan arah pengembangan setelah ruang lingkup saat ini, b
 
 ## 14. Ringkasan Keputusan
 
-1. XenoRent memakai Laravel 13.38.0, PHP 8.3, SQLite, Blade, CSS kustom, dan struktur aplikasi berlapis.
+1. XenoRent memakai Laravel 13.38.0, PHP 8.4, SQLite, Blade, CSS kustom, dan struktur aplikasi berlapis.
 2. Pembagian kode memisahkan controller HTTP, use case dan kontrak repository, aturan domain, serta implementasi Eloquent.
 3. Database memuat enam tabel inti beserta tabel sesi; constraint dan soft delete menjaga konsistensi riwayat rental.
 4. Sewa dibatasi dua unit aktif per anggota, berdurasi bawaan lima hari, dan dikenai denda bawaan Rp10.000 per hari terlambat; pengembalian hanya dilakukan Admin.
